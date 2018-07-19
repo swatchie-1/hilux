@@ -1,8 +1,8 @@
-*.sublime-project
-*.sublime-workspace
-.vscode
-todo.txt
-reset-files.bash
+#*.sublime-project
+#*.sublime-workspace
+#.vscode
+#todo.txt
+#reset-files.bash
 
 *.tar.gz
 
@@ -51,26 +51,26 @@ src/bench/bench_hilux
 #src/qt/test/moc*.cpp
 #libconftest.dylib*
 
-.deps
-.dirstamp
-.libs
-.*.swp
+#.deps
+#.dirstamp
+#.libs
+#.*.swp
 *.*~*
 *.bak
 *.rej
-*.orig
-*.pyc
+#*.orig
+#*.pyc
 *.o
 *.o-*
-*.patch
+#*.patch
 .hilux
 *.a
-*.pb.cc
-*.pb.h
+#*.pb.cc
+#*.pb.h
 
-*.log
-*.trs
-*.dmg
+#*.log
+#*.trs
+#*.dmg
 
 #*.json.h
 #*.raw.h
@@ -91,33 +91,33 @@ hilux-qt_test
 src/test/buildenv.py
 
 # Resources cpp
-qrc_*.cpp
+#qrc_*.cpp
 
 # Mac specific
-.DS_Store
-build
+#.DS_Store
+#build
 
 #lcov
-*.gcno
-*.gcda
-/*.info
-test_hilux.coverage/
-total.coverage/
-coverage_percent.txt
+#*.gcno
+#*.gcda
+#/*.info
+#test_hilux.coverage/
+#total.coverage/
+#coverage_percent.txt
 
 #build tests
-linux-coverage-build
-linux-build
-win32-build
-qa/pull-tester/run-hiluxd-for-test.sh
-qa/pull-tester/tests_config.py
-qa/pull-tester/cache/*
-qa/pull-tester/test.*/*
-qa/tmp
-cache/
-share/HiluxdComparisonTool.jar
+#linux-coverage-build
+#linux-build
+#win32-build
+#qa/pull-tester/run-hiluxd-for-test.sh
+#qa/pull-tester/tests_config.py
+#qa/pull-tester/cache/*
+#qa/pull-tester/test.*/*
+#qa/tmp
+#cache/
+#share/HiluxdComparisonTool.jar
 
-!src/leveldb*/Makefile
+#!src/leveldb*/Makefile
 
 #.cproject
 #.project
@@ -125,11 +125,11 @@ share/HiluxdComparisonTool.jar
 #/doc/doxygen/
 
 #libhiluxconsensus.pc
-src/qt/hilux-qt.bash
+#src/qt/hilux-qt.bash
 #qa/pull-tester/tests-config.sh
 
 #development symlinks
 hilux-cli
 hiluxd
 hilux-qt
-make
+#make
