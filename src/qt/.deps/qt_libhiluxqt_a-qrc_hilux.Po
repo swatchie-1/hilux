@@ -1,0 +1,4 @@
+qt/qt_libhiluxqt_a-qrc_hilux.o: qt/qrc_hilux.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
