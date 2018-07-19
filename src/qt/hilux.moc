@@ -1,0 +1,386 @@
+/****************************************************************************
+** Meta object code from reading C++ file 'hilux.cpp'
+**
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#include <QtCore/qbytearray.h>
+#include <QtCore/qmetatype.h>
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#error "The header file 'hilux.cpp' doesn't include <QObject>."
+#elif Q_MOC_OUTPUT_REVISION != 67
+#error "This file was generated using the moc from 5.5.1. It"
+#error "cannot be used with the include files from this version of Qt."
+#error "(The moc has changed too much.)"
+#endif
+
+QT_BEGIN_MOC_NAMESPACE
+struct qt_meta_stringdata_HiluxCore_t {
+    QByteArrayData data[11];
+    char stringdata0[108];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_HiluxCore_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_HiluxCore_t qt_meta_stringdata_HiluxCore = {
+    {
+QT_MOC_LITERAL(0, 0, 9), // "HiluxCore"
+QT_MOC_LITERAL(1, 10, 16), // "initializeResult"
+QT_MOC_LITERAL(2, 27, 0), // ""
+QT_MOC_LITERAL(3, 28, 6), // "retval"
+QT_MOC_LITERAL(4, 35, 14), // "shutdownResult"
+QT_MOC_LITERAL(5, 50, 16), // "runawayException"
+QT_MOC_LITERAL(6, 67, 7), // "message"
+QT_MOC_LITERAL(7, 75, 10), // "initialize"
+QT_MOC_LITERAL(8, 86, 8), // "shutdown"
+QT_MOC_LITERAL(9, 95, 7), // "restart"
+QT_MOC_LITERAL(10, 103, 4) // "args"
+
+    },
+    "HiluxCore\0initializeResult\0\0retval\0"
+    "shutdownResult\0runawayException\0message\0"
+    "initialize\0shutdown\0restart\0args"
+};
+#undef QT_MOC_LITERAL
+
+static const uint qt_meta_data_HiluxCore[] = {
+
+ // content:
+       7,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       6,   14, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       3,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    1,   44,    2, 0x06 /* Public */,
+       4,    1,   47,    2, 0x06 /* Public */,
+       5,    1,   50,    2, 0x06 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags
+       7,    0,   53,    2, 0x0a /* Public */,
+       8,    0,   54,    2, 0x0a /* Public */,
+       9,    1,   55,    2, 0x0a /* Public */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, QMetaType::QString,    6,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QStringList,   10,
+
+       0        // eod
+};
+
+void HiluxCore::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        HiluxCore *_t = static_cast<HiluxCore *>(_o);
+        Q_UNUSED(_t)
+        switch (_id) {
+        case 0: _t->initializeResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 1: _t->shutdownResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: _t->runawayException((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 3: _t->initialize(); break;
+        case 4: _t->shutdown(); break;
+        case 5: _t->restart((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (HiluxCore::*_t)(int );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxCore::initializeResult)) {
+                *result = 0;
+            }
+        }
+        {
+            typedef void (HiluxCore::*_t)(int );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxCore::shutdownResult)) {
+                *result = 1;
+            }
+        }
+        {
+            typedef void (HiluxCore::*_t)(const QString & );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxCore::runawayException)) {
+                *result = 2;
+            }
+        }
+    }
+}
+
+const QMetaObject HiluxCore::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_HiluxCore.data,
+      qt_meta_data_HiluxCore,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+};
+
+
+const QMetaObject *HiluxCore::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *HiluxCore::qt_metacast(const char *_clname)
+{
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_HiluxCore.stringdata0))
+        return static_cast<void*>(const_cast< HiluxCore*>(this));
+    return QObject::qt_metacast(_clname);
+}
+
+int HiluxCore::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QObject::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 6)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 6;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 6)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 6;
+    }
+    return _id;
+}
+
+// SIGNAL 0
+void HiluxCore::initializeResult(int _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void HiluxCore::shutdownResult(int _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void HiluxCore::runawayException(const QString & _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+struct qt_meta_stringdata_HiluxApplication_t {
+    QByteArrayData data[15];
+    char stringdata0[190];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_HiluxApplication_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_HiluxApplication_t qt_meta_stringdata_HiluxApplication = {
+    {
+QT_MOC_LITERAL(0, 0, 16), // "HiluxApplication"
+QT_MOC_LITERAL(1, 17, 19), // "requestedInitialize"
+QT_MOC_LITERAL(2, 37, 0), // ""
+QT_MOC_LITERAL(3, 38, 16), // "requestedRestart"
+QT_MOC_LITERAL(4, 55, 4), // "args"
+QT_MOC_LITERAL(5, 60, 17), // "requestedShutdown"
+QT_MOC_LITERAL(6, 78, 10), // "stopThread"
+QT_MOC_LITERAL(7, 89, 14), // "splashFinished"
+QT_MOC_LITERAL(8, 104, 8), // "QWidget*"
+QT_MOC_LITERAL(9, 113, 6), // "window"
+QT_MOC_LITERAL(10, 120, 16), // "initializeResult"
+QT_MOC_LITERAL(11, 137, 6), // "retval"
+QT_MOC_LITERAL(12, 144, 14), // "shutdownResult"
+QT_MOC_LITERAL(13, 159, 22), // "handleRunawayException"
+QT_MOC_LITERAL(14, 182, 7) // "message"
+
+    },
+    "HiluxApplication\0requestedInitialize\0"
+    "\0requestedRestart\0args\0requestedShutdown\0"
+    "stopThread\0splashFinished\0QWidget*\0"
+    "window\0initializeResult\0retval\0"
+    "shutdownResult\0handleRunawayException\0"
+    "message"
+};
+#undef QT_MOC_LITERAL
+
+static const uint qt_meta_data_HiluxApplication[] = {
+
+ // content:
+       7,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       8,   14, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       5,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    0,   54,    2, 0x06 /* Public */,
+       3,    1,   55,    2, 0x06 /* Public */,
+       5,    0,   58,    2, 0x06 /* Public */,
+       6,    0,   59,    2, 0x06 /* Public */,
+       7,    1,   60,    2, 0x06 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags
+      10,    1,   63,    2, 0x0a /* Public */,
+      12,    1,   66,    2, 0x0a /* Public */,
+      13,    1,   69,    2, 0x0a /* Public */,
+
+ // signals: parameters
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QStringList,    4,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 8,    9,
+
+ // slots: parameters
+    QMetaType::Void, QMetaType::Int,   11,
+    QMetaType::Void, QMetaType::Int,   11,
+    QMetaType::Void, QMetaType::QString,   14,
+
+       0        // eod
+};
+
+void HiluxApplication::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        HiluxApplication *_t = static_cast<HiluxApplication *>(_o);
+        Q_UNUSED(_t)
+        switch (_id) {
+        case 0: _t->requestedInitialize(); break;
+        case 1: _t->requestedRestart((*reinterpret_cast< QStringList(*)>(_a[1]))); break;
+        case 2: _t->requestedShutdown(); break;
+        case 3: _t->stopThread(); break;
+        case 4: _t->splashFinished((*reinterpret_cast< QWidget*(*)>(_a[1]))); break;
+        case 5: _t->initializeResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->shutdownResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: _t->handleRunawayException((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 4:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QWidget* >(); break;
+            }
+            break;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (HiluxApplication::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxApplication::requestedInitialize)) {
+                *result = 0;
+            }
+        }
+        {
+            typedef void (HiluxApplication::*_t)(QStringList );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxApplication::requestedRestart)) {
+                *result = 1;
+            }
+        }
+        {
+            typedef void (HiluxApplication::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxApplication::requestedShutdown)) {
+                *result = 2;
+            }
+        }
+        {
+            typedef void (HiluxApplication::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxApplication::stopThread)) {
+                *result = 3;
+            }
+        }
+        {
+            typedef void (HiluxApplication::*_t)(QWidget * );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HiluxApplication::splashFinished)) {
+                *result = 4;
+            }
+        }
+    }
+}
+
+const QMetaObject HiluxApplication::staticMetaObject = {
+    { &QApplication::staticMetaObject, qt_meta_stringdata_HiluxApplication.data,
+      qt_meta_data_HiluxApplication,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+};
+
+
+const QMetaObject *HiluxApplication::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *HiluxApplication::qt_metacast(const char *_clname)
+{
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_HiluxApplication.stringdata0))
+        return static_cast<void*>(const_cast< HiluxApplication*>(this));
+    return QApplication::qt_metacast(_clname);
+}
+
+int HiluxApplication::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QApplication::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 8)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 8;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 8)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 8;
+    }
+    return _id;
+}
+
+// SIGNAL 0
+void HiluxApplication::requestedInitialize()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
+}
+
+// SIGNAL 1
+void HiluxApplication::requestedRestart(QStringList _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void HiluxApplication::requestedShutdown()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, Q_NULLPTR);
+}
+
+// SIGNAL 3
+void HiluxApplication::stopThread()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, Q_NULLPTR);
+}
+
+// SIGNAL 4
+void HiluxApplication::splashFinished(QWidget * _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
+}
+QT_END_MOC_NAMESPACE

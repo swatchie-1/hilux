@@ -1,0 +1,6 @@
+usr/local/bin/hilux-qt usr/bin
+share/pixmaps/hilux32.xpm usr/share/pixmaps
+share/pixmaps/hilux16.xpm usr/share/pixmaps
+share/pixmaps/hilux128.png usr/share/pixmaps
+debian/hilux-qt.desktop usr/share/applications
+debian/hilux-qt.protocol usr/share/kde4/services/
