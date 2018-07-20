@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Hilux Core consensus library
+Description: Library for the Hilux consensus protocol.
+Version: 1.0.0
+Libs: -L${libdir} -lhiluxconsensus
+Cflags: -I${includedir}
+Requires.private: libcrypto
