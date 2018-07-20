@@ -81,7 +81,7 @@ libconftest.dylib*
 
 # Compilation and Qt preprocessor part
 *.qm
-Makefile
+#Makefile
 hilux-qt
 Hilux-Qt.app
 
