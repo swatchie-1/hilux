@@ -1,6 +1,12 @@
 Hilux Core 1.0.0
 ===============================
 
+Latest 24/7/2018 PM
+Block explorer is now available:
+http://explorer.hiluxcoin.com
+Web Wallet is Linked to Explorer.
+
+
 Latest 24/7/2018
 - Completed Mining pool : http://pool.hiluxcoin.com
 - Completed Web Wallet : http://wallet.hiluxcoin.com
