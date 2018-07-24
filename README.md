@@ -1,21 +1,74 @@
-Hilux Core 0.1.2
+Hilux Core 1.0.0
 ===============================
 
+Latest 24/7/2018
+- Completed Mining pool : http://pool.hiluxcoin.com
+- Completed Web Wallet : http://wallet.hiluxcoin.com
 
-https://www.hiluxproject.org
+In Progress and Help Is Appreciated:
+- Block Explorer
 
 
-What is Hilux?
+https://www.hiluxcoin.com
+
+
+
+Instructions On How To Run The Wallet Client (QT) :
+Go to Releases Page https://github.com/swatchie-1/hilux/releases and download the latest version:
+If using Windows, download the Hilux-QT.exe
+If using Linux, Use Hilux-qt.tar.gz and Gunzip it into your folder and run it in your Linux GUI
+
+
+
+
+Instructions On Setting Up A Masternode
+i) Send 1000 HLX coins to yourself. (You must have at least 1000 HLX in a single Address)
+ii) Go to Tools ==> Console ==> type : masternode outputs
+Then type: masternode genkey
+(Note: one genkey for one masternode is required)
+Copy the characters and fill it into Settings ==> Open Masternode Configuration File and follow its template
+iii) Get a $5 or $10 VPS installed on Ubuntu 16.04, login and type wget https://github.com/swatchie-1/hilux/releases/download/v1.0.0/masternode.sh 
+iv) type in your VPS SSH : chmod +x masternode.sh
+Then type ./masternode.sh
+v) Follow the screen instructions by filling in the masternode genkey info on step ii.
+vi) For the IP address, fill in your VPS IP address with :7979. Example: 123.456.789.1:7979
+vii) Follow the instructions and press enter when required.
+viii) Once the masternode is installed, give it 5 minutes more to sync. 
+Go to Masternodes Tab. If you can't see it, go to Settings ==> Advanced Settings ==> show masternodes Tab.
+Then close your windows wallet and wait for 2 mins and open it again.
+ix) When you see your masternode at the Masternodes Tab, right click on it and click Start Alias.
+x) Ensure your masternode is started by going to your VPS' SSH and type : hilux-cli masternode status
+Ensure it says: "Masternode Successfully Started". Otherwise repeat step ix and x.
+
+END
+
+
+
+What is Hilux Coin?
 ----------------
 
-Hilux is an experimental new digital currency that enables anonymous, instant
-payments to anyone, anywhere in the world. Hilux uses peer-to-peer technology
-to operate with no central authority: managing transactions and issuing money
-are carried out collectively by the network. Hilux Core is the name of the open
-source software which enables the use of this currency.
+Hilux Coin is a day to day cryptocurrency use which can be used to reward children, exchange for virtual goods and even as an exchange for real currency. This is to make it easy for anybody at all ages to send a cryptocurrency which is yours forever to keep throughout the whole world. We have made it easy for people to use the service by using the simple & user friendly web-wallet at http://wallet.hiluxcoin.com. This way you are sure that you have some funds anywhere in the world.
 
-For more information, as well as an immediately useable, binary version of
-the Hilux Core software, see https://www.hiluxproject.org/.
+
+We Are Looking For Developers & Designers At All Levels To Contribute & Have Your Name Below:
+--------------------------------------------------------------------------------------------
+Goal & Direction:
+Secure, easy to use, and lasts forever.
+Everyone is welcomed to use it, mine it, share it.
+
+It uses X16R Algorithm and can be mined using any X16R Miner. You can setup your own pool, or use our pool. Our pool is http://pool.hiluxcoin.com but more to come.
+
+Current Developer:
+- Swatchie-1
+(looking for more)
+
+
+
+
+
+
+
+
 
 
 License
