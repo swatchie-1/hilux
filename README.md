@@ -4,8 +4,11 @@ Hilux Core 1.0.0
 25/7/2018
 ------------
 We are actually preparing to launch at a specific date to be announced later. Despite this, we begun to see interest from the community especially from the initiated ones who actually took action to start mining and starting their own masternodes. We applaud you for that. We will start a discord channel soon to communicate with members who wish to be part of our humble team and we are looking for people who are interested in developing this block chain space to make it more accessible to everyone. Keep it up and contact soon. 
+<br>
+Just FYI, it takes 100 confirmations for miners to get their rewards, so don't be surprised if you don't see any rewards after mining in the pool.
 <br><br>
 Swatchie-1<br><br><br>
+
 
 
 Latest 24/7/2018 PM
