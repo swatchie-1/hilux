@@ -34,7 +34,7 @@ https://www.hiluxcoin.com
 Instructions On How To Run The Wallet Client (QT) : <br><br>
 Go to Releases Page https://github.com/swatchie-1/hilux/releases and download the latest version:<br>
 If using Windows, download the Hilux-QT.exe<br>
-If using Linux, Use Hilux-qt.tar.gz and Gunzip it into your folder and run it in your Linux GUI
+If using Linux, Use Hilux-qt-linux.tar.gz and Gunzip it into your folder and run it in your Linux GUI
 <br><br><br>
 
 
