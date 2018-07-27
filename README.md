@@ -1,6 +1,17 @@
 Hilux Core 1.0.0
 ===============================
 
+27/7/2018
+---------------
+www.hiluxcoin.com is up.<br>
+Still actively looking for support from the community in: <br>
+- Web Wallet : If someone can help to make an Android App that can utilize the camera for QR Code scanning and auto fills the Address Box would be great.
+- More users using the Web Wallet : http://wallet.hiluxcoin.com and sending me a PM on discord if it is useful or useless.
+- Ideas on how to encourage usage of the Web Wallet
+- Increasing security of the Web Wallet.
+
+<br><br>
+
 25/7/2018
 ------------
 Update PM: Discord Channel Is Here. https://discord.gg/sQfYNbT
