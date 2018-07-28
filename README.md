@@ -1,6 +1,12 @@
 Hilux Core 1.0.0
 ===============================
 
+28/7/2018
+----------------------
+Our webwallet https://wallet.hiluxcoin.com is now a secured site with SSL Encryption. We encourage anyone to test it out and send some funds that you mined. <br><br>
+
+
+
 27/7/2018
 ---------------
 www.hiluxcoin.com is up.<br>
