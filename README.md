@@ -1,6 +1,12 @@
 Hilux Core 1.0.0
 ===============================
 
+31/7/2018
+----------------------
+Launch date for Hilux Coin has just been announced. Check www.hiluxcoin.com for launch date and pre-sale.
+
+
+
 28/7/2018
 ----------------------
 Our webwallet https://wallet.hiluxcoin.com is now a secured site with SSL Encryption. We encourage anyone to test it out and send some funds that you mined. <br><br>
