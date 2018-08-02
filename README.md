@@ -64,22 +64,23 @@ If using Linux, Use Hilux-qt-linux.tar.gz and Gunzip it into your folder and run
 
 Instructions On Setting Up A Masternode<br><br>
 i) Send 1000 HLX coins to yourself. (You must have at least 1000 HLX in a single Address)<br>
-ii) Go to Tools ==> Console ==> type : masternode outputs<br>
-Then type: masternode genkey<br>
+ii) Go to Tools ==> Console<br>
+Then type: ```masternode outputs```
+and: ```masternode genkey```
 (Note: one genkey for one masternode is required)<br>
-Copy the characters and fill it into Settings ==> Open Masternode Configuration File and follow its template<br>
-iii) Get a $5 or $10 VPS installed on Ubuntu 16.04, login and type wget https://github.com/swatchie-1/hilux/releases/download/v1.0.0/masternode.sh <br>
-iv) type in your VPS SSH : chmod +x masternode.sh<br>
-Then type ./masternode.sh<br>
-v) Follow the screen instructions by filling in the masternode genkey info on step ii.<br>
-vi) For the IP address, fill in your VPS IP address with :7979. Example: 123.456.789.1:7979<br>
-vii) Follow the instructions and press enter when required.<br>
-viii) Once the masternode is installed, give it 5 minutes more to sync. <br>
+iii) Copy the the outputs from the commands and fill it into Settings ==> Open Masternode Configuration File and follow its template, using the external IP of your VPS (created in the following step)<br>
+iv) Get a $5 or $10 VPS installed on Ubuntu 16.04
+v) Login and type ```wget https://github.com/swatchie-1/hilux/releases/download/v1.0.0/masternode.sh``` <br>
+vi) Then ```chmod +x masternode.sh``` and type ```./masternode.sh```<br>
+vii) Follow the screen instructions by filling in the masternode genkey info from step ii.<br>
+viii) For the IP address, fill in your VPS's external IP address with :7979 at the end. Example: 123.456.789.1:7979<br>
+ix) Follow the instructions and press enter when required.<br>
+x) Once the masternode is installed, give it 5 minutes more to sync. <br>
 Go to Masternodes Tab. If you can't see it, go to Settings ==> Advanced Settings ==> show masternodes Tab.<br>
-Then close your windows wallet and wait for 2 mins and open it again.<br>
-ix) When you see your masternode at the Masternodes Tab, right click on it and click Start Alias.<br>
-x) Ensure your masternode is started by going to your VPS' SSH and type : hilux-cli masternode status<br>
-Ensure it says: "Masternode Successfully Started". Otherwise repeat step ix and x.<br>
+Then close your Windows wallet and wait for 2 mins and open it again.<br>
+xi) When you see your masternode at the Masternodes Tab, right click on it and click Start Alias.<br>
+xii) Ensure your masternode is started by going to your VPS' SSH and type: ```hilux-cli masternode status```<br>
+Ensure it says: ```"Masternode Successfully Started"```. Otherwise repeat step xi and xii.<br>
 
 END<br>
 
