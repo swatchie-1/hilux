@@ -228,8 +228,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/src/config/hilux-config.h.in \
 	$(top_srcdir)/src/test/buildenv.py.in COPYING INSTALL \
 	build-aux/compile build-aux/config.guess build-aux/config.sub \
-	build-aux/depcomp build-aux/install-sh build-aux/ltmain.sh \
-	build-aux/missing
+	build-aux/install-sh build-aux/ltmain.sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -298,7 +297,7 @@ CFLAGS = -g -O2
 CLIENT_VERSION_IS_RELEASE = true
 CLIENT_VERSION_MAJOR = 1
 CLIENT_VERSION_MINOR = 0
-CLIENT_VERSION_REVISION = 0
+CLIENT_VERSION_REVISION = 1
 COMPARISON_TOOL_REORG_TESTS = 0
 COPYRIGHT_YEAR = 2018
 CPP = gcc -E
@@ -385,10 +384,10 @@ OTOOL64 =
 PACKAGE = hiluxcore
 PACKAGE_BUGREPORT = https://github.com/hiluxcrypto/hilux/issues
 PACKAGE_NAME = Hilux Core
-PACKAGE_STRING = Hilux Core 1.0.0
+PACKAGE_STRING = Hilux Core 1.0.1
 PACKAGE_TARNAME = hiluxcore
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.0.0
+PACKAGE_VERSION = 1.0.1
 PATH_SEPARATOR = :
 PIC_FLAGS = -fPIC
 PIE_FLAGS = -fPIE
@@ -441,7 +440,7 @@ UNIVALUE_CFLAGS = -I$(srcdir)/univalue/include
 UNIVALUE_LIBS = univalue/libunivalue.la
 USE_QRCODE = 
 USE_UPNP = 
-VERSION = 1.0.0
+VERSION = 1.0.1
 WINDOWS_BITS = 
 WINDRES = 
 X11XCB_CFLAGS = 

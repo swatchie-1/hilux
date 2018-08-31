@@ -182,6 +182,22 @@ public:
         vSeeds.push_back(CDNSSeedData("node3.hiluxcoin.com", "node3.hiluxcoin.com")); // DNSSeed
         vSeeds.push_back(CDNSSeedData("node4.hiluxcoin.com", "node4.hiluxcoin.com")); // DNSSeed
         vSeeds.push_back(CDNSSeedData("node5.hiluxcoin.com", "node5.hiluxcoin.com")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("149.28.130.84", "149.28.130.84")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("91.211.251.11", "91.211.251.11")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("104.238.170.162", "104.238.170.162")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("193.124.187.194", "193.124.187.194")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("45.43.21.166", "45.43.21.166")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("149.28.180.196", "149.28.180.196")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("80.211.46.174", "80.211.46.174")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("107.175.123.196", "107.175.123.196")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("172.104.87.58", "172.104.87.58")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("95.179.149.180", "95.179.149.180")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("45.76.137.171", "45.76.137.171")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("80.211.26.13", "80.211.26.13")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("45.77.104.146", "45.77.104.146")); // DNSSeed
+        vSeeds.push_back(CDNSSeedData("68.195.18.155", "68.195.18.155")); // DNSSeed
+
+
 
 
 
