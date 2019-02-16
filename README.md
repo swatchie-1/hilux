@@ -2,7 +2,7 @@ Hilux Core 1.0.2
 ===============================
 
 
-https://www.hiluxproject.org
+https://www.hiluxcoin.com
 
 
 What is Hilux?
@@ -15,7 +15,7 @@ are carried out collectively by the network. Hilux Core is the name of the open
 source software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the Hilux Core software, see https://www.hiluxproject.org/.
+the Hilux Core software, see https://www.hiluxcoin.com/.
 
 
 License
