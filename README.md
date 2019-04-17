@@ -1,3 +1,25 @@
+APRIL 2019 MASTERNODE PATCH FIX
+======================================
+If you look at your own Masternode status, you may notice that your Masternode is now in "Watchdog Expired" status.
+To fix this, do the following steps.
+1. Login to your VPS which runs the Hilux masternode. Type:
+
+cd ~
+wget https://github.com/swatchie-1/hilux/releases/download/v1.0.1/patch1.sh
+chmod +x patch1.sh
+./patch1.sh
+
+Then follow the screen instructions. 
+In 6 hours, your masternode status should be ENABLED.
+If not, login again to the vps and type:
+
+python3 /root/sentinel-hilux2/bin/sentinel.py
+
+That's it. Enjoy the patch.
+
+
+
+
 Hilux Core 1.0.2
 ===============================
 
