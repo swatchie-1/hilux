@@ -319,19 +319,15 @@ void HiluxCore::shutdown()
     {
         qDebug() << __func__ << ": Running Shutdown in thread";
         Interrupt(threadGroup);
-//        threadGroup.join_all();
+        threadGroup.join_all();
         Shutdown();
-
-
         qDebug() << __func__ << ": Shutdown finished";
         Q_EMIT shutdownResult(1);
-    } 
-      catch (const std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
     }
-
 }
 
 HiluxApplication::HiluxApplication(int &argc, char **argv):
@@ -368,10 +364,6 @@ HiluxApplication::~HiluxApplication()
         Q_EMIT stopThread();
         coreThread->wait();
         qDebug() << __func__ << ": Stopped thread";
-        delete coreThread;
-        coreThread = 0;
-
-
     }
 
     delete window;
@@ -428,7 +420,7 @@ void HiluxApplication::startThread()
     if(coreThread)
         return;
     coreThread = new QThread(this);
-    HiluxCore* executor = new HiluxCore();
+    HiluxCore *executor = new HiluxCore();
     executor->moveToThread(coreThread);
 
     /*  communication to and from thread */
@@ -463,8 +455,6 @@ void HiluxApplication::requestShutdown()
     // Show a simple window indicating shutdown status
     // Do this first as some of the steps may take some time below,
     // for example the RPC console may still be executing a command.
-    
-
     shutdownWindow.reset(ShutdownWindow::showShutdownWindow(window));
 
     qDebug() << __func__ << ": Requesting shutdown";
@@ -480,10 +470,6 @@ void HiluxApplication::requestShutdown()
 #endif
     delete clientModel;
     clientModel = 0;
-
-
-
-    StartShutdown();
 
     // Request shutdown from core thread
     Q_EMIT requestedShutdown();
