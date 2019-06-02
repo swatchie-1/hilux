@@ -124,9 +124,9 @@ void OptionsModel::Init(bool resetSettings)
     // Wallet
 #ifdef ENABLE_WALLET
     if (!settings.contains("bSpendZeroConfChange"))
-        settings.setValue("bSpendZeroConfChange", true);
-    if (!SoftSetBoolArg("-spendzeroconfchange", settings.value("bSpendZeroConfChange").toBool()))
-        addOverriddenOption("-spendzeroconfchange");
+        settings.setValue("bSpendZeroConfChange", false);
+//    if (!SoftSetBoolArg("-spendzeroconfchange", settings.value("bSpendZeroConfChange").toBool()))
+//        addOverriddenOption("-spendzeroconfchange");
 
     // PrivateSend
     if (!settings.contains("nPrivateSendRounds"))

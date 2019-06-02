@@ -1,3 +1,7 @@
+Masternodes tabs are now automatically added upon installation.
+
+
+
 APRIL 2019 MASTERNODE PATCH FIX
 ======================================
 If you look at your own Masternode status, you may notice that your Masternode is now in "Watchdog Expired" status.

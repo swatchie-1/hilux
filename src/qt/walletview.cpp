@@ -82,18 +82,21 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     settingsPage = new SettingsPage(platformStyle);
     toolsPage = new ToolsPage(platformStyle);
 
+    masternodeListPage = new MasternodeList(platformStyle);
+
     addWidget(overviewPage);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(settingsPage);
     addWidget(toolsPage);
-
+    addWidget(masternodeListPage);
+    
     QSettings settings;
-    if (settings.value("fShowMasternodesTab").toBool()) {
-        masternodeListPage = new MasternodeList(platformStyle);
-        addWidget(masternodeListPage);
-    }
+//    if (settings.value("fShowMasternodesTab").toBool()) {
+//    masternodeListPage = new MasternodeList(platformStyle);
+//    addWidget(masternodeListPage);
+//    }
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
