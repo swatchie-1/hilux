@@ -322,10 +322,10 @@ void SendCoinsDialog::send(QList<SendCoinsRecipient> recipients, QString strFee,
     // prepare transaction for getting txFee earlier
     WalletModelTransaction currentTransaction(recipients);
     WalletModel::SendCoinsReturn prepareStatus;
-    if (model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
-        prepareStatus = model->prepareTransaction(currentTransaction, CoinControlDialog::coinControl);
-    else
-        prepareStatus = model->prepareTransaction(currentTransaction);
+//    if (model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
+//        prepareStatus = model->prepareTransaction(currentTransaction, CoinControlDialog::coinControl);
+//    else
+     prepareStatus = model->prepareTransaction(currentTransaction, CoinControlDialog::coinControl);
 
     // process prepareStatus and on error generate message shown to user
     processSendCoinsReturn(prepareStatus,

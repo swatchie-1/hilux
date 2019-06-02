@@ -86,7 +86,10 @@ void OptionsModel::Init(bool resetSettings)
 #ifdef ENABLE_WALLET
     if (!settings.contains("fCoinControlFeatures"))
         settings.setValue("fCoinControlFeatures", false);
-    fCoinControlFeatures = settings.value("fCoinControlFeatures", false).toBool();
+
+    fCoinControlFeatures = settings.value("fCoinControlFeatures", true).toBool();
+
+
 
     if (!settings.contains("digits"))
         settings.setValue("digits", "2");
@@ -478,10 +481,14 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             break;
 #ifdef ENABLE_WALLET
         case CoinControlFeatures:
+
             fCoinControlFeatures = value.toBool();
             settings.setValue("fCoinControlFeatures", fCoinControlFeatures);
             Q_EMIT coinControlFeaturesChanged(fCoinControlFeatures);
-            break;
+            
+
+	    break;
+
 #endif // ENABLE_WALLET
         case DatabaseCache:
             if (settings.value("nDatabaseCache") != value) {

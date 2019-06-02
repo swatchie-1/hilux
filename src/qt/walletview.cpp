@@ -91,7 +91,8 @@ WalletView::WalletView(const PlatformStyle *platformStyle, QWidget *parent):
     addWidget(settingsPage);
     addWidget(toolsPage);
     addWidget(masternodeListPage);
-    
+
+
     QSettings settings;
 //    if (settings.value("fShowMasternodesTab").toBool()) {
 //    masternodeListPage = new MasternodeList(platformStyle);
