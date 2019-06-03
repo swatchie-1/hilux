@@ -369,6 +369,7 @@ void ToolsPage::setClientModel(ClientModel *model)
         // Make sure we clean up the executor thread
         Q_EMIT stopExecutor();
         thread.wait();
+
     }
 }
 
