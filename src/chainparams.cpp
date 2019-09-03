@@ -110,10 +110,10 @@ public:
         consensus.nZawyLwmaAjustedWeight = 3927;
 
         consensus.nPowTargetTimespan = 60 * 60 * 60; // Hilux: 60 hours
-        consensus.nPowTargetSpacing = 1 * 30; // Hilux: 30 secs
+        consensus.nPowTargetSpacing = 2 * 60; // Update to 2 mins for mainnet - Initial Hilux: 30 secs
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.useDarkGravityWave = false;
+        consensus.useDarkGravityWave = true; // Enable DGW after block 30000
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;

@@ -109,9 +109,11 @@ unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockH
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     // Only use Dark Gravity if is defined
-//tm    if (params.useDarkGravityWave || pindexLast->nHeight <= 100) {
+    //tm    if (params.useDarkGravityWave || pindexLast->nHeight <= 100) {
     if (params.useDarkGravityWave || pindexLast->nHeight <= 2500) {
-       return DarkGravityWave(pindexLast, params);
+        if (pindexLast->nHeight > 30000) {
+            return DarkGravityWave(pindexLast, params);
+        }  
     }
 
     return LwmaGetNextWorkRequired(pindexLast, pblock, params);
