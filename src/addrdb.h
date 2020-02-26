@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_ADDRDB_H
-#define HILUX_ADDRDB_H
+#ifndef BITCOIN_ADDRDB_H
+#define BITCOIN_ADDRDB_H
 
 #include "serialize.h"
 
@@ -46,9 +46,8 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITE(this->nVersion);
-        nVersion = this->nVersion;
         READWRITE(nCreateTime);
         READWRITE(nBanUntil);
         READWRITE(banReason);
@@ -100,4 +99,4 @@ public:
     bool Read(banmap_t& banSet);
 };
 
-#endif // HILUX_ADDRDB_H
+#endif // BITCOIN_ADDRDB_H
