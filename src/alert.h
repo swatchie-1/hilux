@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_ALERT_H
-#define HILUX_ALERT_H
+#ifndef BITCOIN_ALERT_H
+#define BITCOIN_ALERT_H
 
 #include "serialize.h"
 #include "sync.h"
@@ -50,9 +50,8 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITE(this->nVersion);
-        nVersion = this->nVersion;
         READWRITE(nRelayUntil);
         READWRITE(nExpiration);
         READWRITE(nID);
@@ -88,7 +87,7 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITE(vchMsg);
         READWRITE(vchSig);
     }
@@ -103,8 +102,8 @@ public:
     bool RelayTo(CNode* pnode, CConnman& connman) const;
     bool Sign();
     bool CheckSignature(const std::vector<unsigned char>& alertKey) const;
-    bool ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread = true); // fThread means run -alertnotify in a free-running thread
-    static void Notify(const std::string& strMessage, bool fThread);
+    bool ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread = true) const; // fThread means run -alertnotify in a free-running thread
+    static void Notify(const std::string& strMessage, bool fThread = true);
 
     /*
      * Get copy of (active) alert object by hash. Returns a null alert if it is not found.
@@ -112,4 +111,4 @@ public:
     static CAlert getAlertByHash(const uint256 &hash);
 };
 
-#endif // HILUX_ALERT_H
+#endif // BITCOIN_ALERT_H
