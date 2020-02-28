@@ -1,23 +1,19 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Hilux
+Upstream-Name: Bitcoin
 Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#hilux@freenode.net
-Source: https://github.com/hilux/hilux
+ irc://#bitcoin@freenode.net
+Source: https://github.com/bitcoin/bitcoin
 
 Files: *
-Copyright: 2009-2016, Bitcoin Core Developers
+Copyright: 2009-2017, Bitcoin Core Developers
 License: Expat
-Comment: The Hilux Core Developers encompasses the current developers listed on hilux.org,
+Comment: The Bitcoin Core Developers encompasses the current developers listed on bitcoin.org,
          as well as the numerous contributors to the project.
 
 Files: debian/*
 Copyright: 2010-2011, Jonas Smedegaard <dr@jones.dk>
            2011, Matt Corallo <matt@bluematt.me>
 License: GPL-2+
-
-Files: debian/manpages/*
-Copyright: Micah Anderson <micah@debian.org>
-License: GPL-3+
 
 Files: src/qt/res/icons/add.png
        src/qt/res/icons/address-book.png
@@ -62,6 +58,10 @@ Files: src/qt/res/icons/tx_mined.png
        src/qt/res/src/mine.svg
        src/qt/res/icons/fontbigger.png
        src/qt/res/icons/fontsmaller.png
+       src/qt/res/icons/*/hd_disabled.png
+       src/qt/res/src/hd_disabled.svg
+       src/qt/res/icons/*/hd_enabled.png
+       src/qt/res/src/hd_enabled.svg
 Copyright: Jonas Schnelli
 License: Expat
 Comment:
@@ -78,12 +78,12 @@ License: Expat
 Comment: Modifications of Stephan Hutchings Typicons
 
 Files: src/qt/res/icons/about.png
-       src/qt/res/icons/hilux.*
-       share/pixmaps/hilux*
-       src/qt/res/src/hilux.svg
+       src/qt/res/icons/bitcoin.*
+       share/pixmaps/bitcoin*
+       src/qt/res/src/bitcoin.svg
 Copyright: Bitboy, Jonas Schnelli
 License: public-domain
-Comment: Site: https://hiluxtalk.org/?topic=1756.0
+Comment: Site: https://bitcointalk.org/?topic=1756.0
 
 
 License: Expat

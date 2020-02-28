@@ -1,1 +1,2 @@
 contrib/hiluxd.bash-completion	hiluxd
+contrib/hilux-cli.bash-completion    hilux-cli

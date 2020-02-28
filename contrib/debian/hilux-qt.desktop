@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Hilux
 Comment=Hilux P2P Cryptocurrency
+Comment[de]=Verbinde mit dem Hilux peer-to-peer Netzwerk
 Comment[fr]=Hilux, monnaie virtuelle cryptographique pair à pair
 Comment[tr]=Hilux, eşten eşe kriptografik sanal para birimi
 Exec=hilux-qt %u

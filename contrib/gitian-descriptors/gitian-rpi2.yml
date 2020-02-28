@@ -1,5 +1,5 @@
 ---
-name: "hilux-raspberry-0.12"
+name: "hilux-raspberry-1.2.3.4"
 enable_cache: true
 suites:
 - "precise"
@@ -17,7 +17,7 @@ packages:
 - "binutils-gold"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/hiluxcrypto/hilux.git"
+- "url": "https://github.com/swatchie-1/hilux.git"
   "dir": "hilux"
 files:
 - "raspberrypi-tools.tar.gz"
@@ -25,6 +25,7 @@ script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="arm-linux-gnueabihf"
   CONFIGFLAGS="--enable-upnp-default --enable-glibc-back-compat"
+  CONFIGFLAGS+=" --disable-tests"
   FAKETIME_HOST_PROGS=""
   FAKETIME_PROGS="date ar ranlib nm strip"
   
@@ -78,13 +79,13 @@ script: |
   ./autogen.sh
   ./configure --prefix=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`
   make NO_QT=1 dist
-  SOURCEDIST=`echo hiluxcore-*.tar.gz`
+  SOURCEDIST=`echo hilux-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find hiluxcore-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find hilux-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"
@@ -109,4 +110,4 @@ script: |
   done
   mkdir -p $OUTDIR/src
   mv $SOURCEDIST $OUTDIR/src
-  mv ${OUTDIR}/${DISTNAME}-arm-*.tar.gz ${OUTDIR}/${DISTNAME}-RPi2.tar.gz
+  mv ${OUTDIR}/${DISTNAME}-arm-*.tar.gz ${OUTDIR}/${DISTNAME}-rpi2.tar.gz

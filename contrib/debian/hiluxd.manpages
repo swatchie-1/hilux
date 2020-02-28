@@ -1,3 +1,2 @@
-debian/manpages/hiluxd.1
-debian/manpages/hilux.conf.5
-debian/manpages/hilux-cli.1
+doc/man/hiluxd.1
+doc/man/hilux-cli.1

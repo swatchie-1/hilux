@@ -19,14 +19,14 @@ fi
 RETVAL=0
 
 prog=hiluxd
-# you can override the lockfile via HILUXD_LOCKFILE in /etc/sysconfig/hiluxd
-lockfile=${HILUXD_LOCKFILE-/var/lock/subsys/hiluxd}
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/hiluxd
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/hiluxd}
 
-# hiluxd defaults to /usr/bin/hiluxd, override with HILUXD_BIN
-hiluxd=${HILUXD_BIN-/usr/bin/hiluxd}
+# hiluxd defaults to /usr/bin/hiluxd, override with BITCOIND_BIN
+hiluxd=${BITCOIND_BIN-/usr/bin/hiluxd}
 
-# hiluxd opts default to -disablewallet, override with HILUXD_OPTS
-hiluxd_opts=${HILUXD_OPTS--disablewallet}
+# hiluxd opts default to -disablewallet, override with BITCOIND_OPTS
+hiluxd_opts=${BITCOIND_OPTS--disablewallet}
 
 start() {
     echo -n $"Starting $prog: "

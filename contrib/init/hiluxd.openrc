@@ -3,40 +3,40 @@
 # backward compatibility for existing gentoo layout 
 #
 if [ -d "/var/lib/hiluxcore/.hiluxcore" ]; then
-	HILUXD_DEFAULT_DATADIR="/var/lib/hiluxcore/.hiluxcore"
+	BITCOIND_DEFAULT_DATADIR="/var/lib/hiluxcore/.hiluxcore"
 else
-	HILUXD_DEFAULT_DATADIR="/var/lib/hiluxd"
+	BITCOIND_DEFAULT_DATADIR="/var/lib/hiluxd"
 fi
 
-HILUXD_CONFIGFILE=${HILUXD_CONFIGFILE:-/etc/hiluxcore/hilux.conf}
-HILUXD_PIDDIR=${HILUXD_PIDDIR:-/var/run/hiluxd}
-HILUXD_PIDFILE=${HILUXD_PIDFILE:-${HILUXD_PIDDIR}/hiluxd.pid}
-HILUXD_DATADIR=${HILUXD_DATADIR:-${HILUXD_DEFAULT_DATADIR}}
-HILUXD_USER=${HILUXD_USER:-${HILUX_USER:-hiluxcore}}
-HILUXD_GROUP=${HILUXD_GROUP:-hiluxcore}
-HILUXD_BIN=${HILUXD_BIN:-/usr/bin/hiluxd}
-HILUXD_NICE=${HILUXD_NICE:-${NICELEVEL:-0}}
-HILUXD_OPTS="${HILUXD_OPTS:-${HILUX_OPTS}}"
+BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/hiluxcore/hilux.conf}
+BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/hiluxd}
+BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/hiluxd.pid}
+BITCOIND_DATADIR=${BITCOIND_DATADIR:-${BITCOIND_DEFAULT_DATADIR}}
+BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-hiluxcore}}
+BITCOIND_GROUP=${BITCOIND_GROUP:-hiluxcore}
+BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/hiluxd}
+BITCOIND_NICE=${BITCOIND_NICE:-${NICELEVEL:-0}}
+BITCOIND_OPTS="${BITCOIND_OPTS:-${BITCOIN_OPTS}}"
 
 name="Hilux Core Daemon"
 description="Hilux cryptocurrency P2P network daemon"
 
 command="/usr/bin/hiluxd"
-command_args="-pid=\"${HILUXD_PIDFILE}\" \
-		-conf=\"${HILUXD_CONFIGFILE}\" \
-		-datadir=\"${HILUXD_DATADIR}\" \
+command_args="-pid=\"${BITCOIND_PIDFILE}\" \
+		-conf=\"${BITCOIND_CONFIGFILE}\" \
+		-datadir=\"${BITCOIND_DATADIR}\" \
 		-daemon \
-		${HILUXD_OPTS}"
+		${BITCOIND_OPTS}"
 
-required_files="${HILUXD_CONFIGFILE}"
-start_stop_daemon_args="-u ${HILUXD_USER} \
-			-N ${HILUXD_NICE} -w 2000"
-pidfile="${HILUXD_PIDFILE}"
+required_files="${BITCOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${BITCOIND_USER} \
+			-N ${BITCOIND_NICE} -w 2000"
+pidfile="${BITCOIND_PIDFILE}"
 
 # The retry schedule to use when stopping the daemon. Could be either
 # a timeout in seconds or multiple signal/timeout pairs (like
 # "SIGKILL/180 SIGTERM/300")
-retry="${HILUXD_SIGTERM_TIMEOUT}"
+retry="${BITCOIND_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -50,29 +50,29 @@ start_pre() {
 	checkpath \
 	-d \
 	--mode 0750 \
-	--owner "${HILUXD_USER}:${HILUXD_GROUP}" \
-	"${HILUXD_DATADIR}"
+	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+	"${BITCOIND_DATADIR}"
 
 	checkpath \
 	-d \
 	--mode 0755 \
-	--owner "${HILUXD_USER}:${HILUXD_GROUP}" \
-	"${HILUXD_PIDDIR}"
+	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+	"${BITCOIND_PIDDIR}"
 
 	checkpath -f \
-	-o ${HILUXD_USER}:${HILUXD_GROUP} \
+	-o ${BITCOIND_USER}:${BITCOIND_GROUP} \
 	-m 0660 \
-	${HILUXD_CONFIGFILE}
+	${BITCOIND_CONFIGFILE}
 
 	checkconfig || return 1
 }
 
 checkconfig()
 {
-	if ! grep -qs '^rpcpassword=' "${HILUXD_CONFIGFILE}" ; then
+	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
 		eerror ""
 		eerror "ERROR: You must set a secure rpcpassword to run hiluxd."
-		eerror "The setting must appear in ${HILUXD_CONFIGFILE}"
+		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "
 		eerror "and must not be the same as the rpcuser setting."

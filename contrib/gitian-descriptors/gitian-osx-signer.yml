@@ -6,9 +6,8 @@ architectures:
 - "amd64"
 packages:
 - "faketime"
-reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/hiluxcrypto/hilux-detached-sigs.git"
+- "url": "https://github.com/swatchie-1/hilux-detached-sigs.git"
   "dir": "signature"
 files:
 - "hilux-osx-unsigned.tar.gz"
@@ -32,6 +31,7 @@ script: |
   SIGNED=hilux-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
+  OSX_VOLNAME="$(cat osx_volname)"
   ./detached-sig-apply.sh ${UNSIGNED} signature/osx
-  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "Hilux-Core" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
+  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "${OSX_VOLNAME}" -no-pad -r -dir-mode 0755 -apple -o uncompressed.dmg signed-app
   ${WRAP_DIR}/dmg dmg uncompressed.dmg ${OUTDIR}/${SIGNED}
