@@ -1,19 +1,26 @@
-#!/usr/bin/env python2
-# Copyright (c) 2015 The Bitcoin Core developers
+#!/usr/bin/env python3
+# Copyright (c) 2015-2016 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 import socket
+import os
 
 from test_framework.socks5 import Socks5Configuration, Socks5Command, Socks5Server, AddressType
-from test_framework.test_framework import HiluxTestFramework
-from test_framework.util import *
+from test_framework.test_framework import BitcoinTestFramework
+from test_framework.util import (
+    PORT_MIN,
+    PORT_RANGE,
+    start_nodes,
+    assert_equal,
+)
 from test_framework.netutil import test_ipv6_local
 '''
 Test plan:
-- Start hiluxd's with different proxy configurations
+- Start bitcoind's with different proxy configurations
 - Use addnode to initiate connections
 - Verify that proxies are connected to, and the right connection command is given
-- Proxy configurations to test on hiluxd side:
+- Proxy configurations to test on bitcoind side:
     - `-proxy` (proxy everything)
     - `-onion` (proxy just onions)
     - `-proxyrandomize` Circuit randomization
@@ -23,8 +30,8 @@ Test plan:
     - proxy on IPv6
 
 - Create various proxies (as threads)
-- Create hiluxds that connect to them
-- Manipulate the hiluxds using addnode (onetry) an observe effects
+- Create bitcoinds that connect to them
+- Manipulate the bitcoinds using addnode (onetry) an observe effects
 
 addnode connect to IPv4
 addnode connect to IPv6
@@ -32,30 +39,36 @@ addnode connect to onion
 addnode connect to generic DNS name
 '''
 
+RANGE_BEGIN = PORT_MIN + 2 * PORT_RANGE  # Start after p2p and rpc ports
 
-class ProxyTest(HiluxTestFramework):
+
+class ProxyTest(BitcoinTestFramework):
     def __init__(self):
+        super().__init__()
+        self.num_nodes = 4
+        self.setup_clean_chain = False
+
         self.have_ipv6 = test_ipv6_local()
         # Create two proxies on different ports
         # ... one unauthenticated
         self.conf1 = Socks5Configuration()
-        self.conf1.addr = ('127.0.0.1', 13000 + (os.getpid() % 1000))
+        self.conf1.addr = ('127.0.0.1', RANGE_BEGIN + (os.getpid() % 1000))
         self.conf1.unauth = True
         self.conf1.auth = False
         # ... one supporting authenticated and unauthenticated (Tor)
         self.conf2 = Socks5Configuration()
-        self.conf2.addr = ('127.0.0.1', 14000 + (os.getpid() % 1000))
+        self.conf2.addr = ('127.0.0.1', RANGE_BEGIN + 1000 + (os.getpid() % 1000))
         self.conf2.unauth = True
         self.conf2.auth = True
         if self.have_ipv6:
             # ... one on IPv6 with similar configuration
             self.conf3 = Socks5Configuration()
             self.conf3.af = socket.AF_INET6
-            self.conf3.addr = ('::1', 15000 + (os.getpid() % 1000))
+            self.conf3.addr = ('::1', RANGE_BEGIN + 2000 + (os.getpid() % 1000))
             self.conf3.unauth = True
             self.conf3.auth = True
         else:
-            print "Warning: testing without local IPv6 support"
+            print("Warning: testing without local IPv6 support")
 
         self.serv1 = Socks5Server(self.conf1)
         self.serv1.start()
@@ -76,7 +89,7 @@ class ProxyTest(HiluxTestFramework):
             ]
         if self.have_ipv6:
             args[3] = ['-listen', '-debug=net', '-debug=proxy', '-proxy=[%s]:%i' % (self.conf3.addr),'-proxyrandomize=0', '-noonion']
-        return start_nodes(4, self.options.tmpdir, extra_args=args)
+        return start_nodes(self.num_nodes, self.options.tmpdir, extra_args=args)
 
     def node_test(self, node, proxies, auth, test_onion=True):
         rv = []
@@ -84,7 +97,7 @@ class ProxyTest(HiluxTestFramework):
         node.addnode("15.61.23.23:1234", "onetry")
         cmd = proxies[0].queue.get()
         assert(isinstance(cmd, Socks5Command))
-        # Note: hiluxd's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
+        # Note: bitcoind's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
         assert_equal(cmd.atyp, AddressType.DOMAINNAME)
         assert_equal(cmd.addr, b"15.61.23.23")
         assert_equal(cmd.port, 1234)
@@ -98,7 +111,7 @@ class ProxyTest(HiluxTestFramework):
             node.addnode("[1233:3432:2434:2343:3234:2345:6546:4534]:5443", "onetry")
             cmd = proxies[1].queue.get()
             assert(isinstance(cmd, Socks5Command))
-            # Note: hiluxd's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
+            # Note: bitcoind's SOCKS5 implementation only sends atyp DOMAINNAME, even if connecting directly to IPv4/IPv6
             assert_equal(cmd.atyp, AddressType.DOMAINNAME)
             assert_equal(cmd.addr, b"1233:3432:2434:2343:3234:2345:6546:4534")
             assert_equal(cmd.port, 5443)
@@ -109,11 +122,11 @@ class ProxyTest(HiluxTestFramework):
 
         if test_onion:
             # Test: outgoing onion connection through node
-            node.addnode("hiluxostk4e4re.onion:8333", "onetry")
+            node.addnode("bitcoinostk4e4re.onion:8333", "onetry")
             cmd = proxies[2].queue.get()
             assert(isinstance(cmd, Socks5Command))
             assert_equal(cmd.atyp, AddressType.DOMAINNAME)
-            assert_equal(cmd.addr, b"hiluxostk4e4re.onion")
+            assert_equal(cmd.addr, b"bitcoinostk4e4re.onion")
             assert_equal(cmd.port, 8333)
             if not auth:
                 assert_equal(cmd.username, None)
