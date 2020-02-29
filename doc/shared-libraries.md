@@ -11,7 +11,7 @@ The interface is defined in the C header `hiluxconsensus.h` located in  `src/scr
 
 #### Version
 
-`hiluxconsensus_version` returns an `unsigned int` with the the API version *(currently at an experimental `0`)*.
+`hiluxconsensus_version` returns an `unsigned int` with the API version *(currently at an experimental `0`)*.
 
 #### Script Validation
 
@@ -28,8 +28,11 @@ The interface is defined in the C header `hiluxconsensus.h` located in  `src/scr
 
 ##### Script Flags
 - `hiluxconsensus_SCRIPT_FLAGS_VERIFY_NONE`
-- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/hilux/bips/blob/master/bip-0016.mediawiki)) subscripts
-- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/hilux/bips/blob/master/bip-0066.mediawiki)) compliance
+- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)) subscripts
+- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki)) compliance
+- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki))
+- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki))
+- `hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki))
 
 ##### Errors
 - `hiluxconsensus_ERR_OK` - No errors with input parameters *(see the return value of `hiluxconsensus_verify_script` for the verification status)*
@@ -38,7 +41,7 @@ The interface is defined in the C header `hiluxconsensus.h` located in  `src/scr
 - `hiluxconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`
 
 ### Example Implementations
-- [NHilux](https://github.com/NicolasDorier/NHilux/blob/master/NHilux/Script.cs#L814) (.NET Bindings)
-- [node-libhiluxconsensus](https://github.com/bitpay/node-libhiluxconsensus) (Node.js Bindings)
-- [java-libhiluxconsensus](https://github.com/dexX7/java-libhiluxconsensus) (Java Bindings)
-- [hiluxconsensus-php](https://github.com/Bit-Wasp/hiluxconsensus-php) (PHP Bindings)
+- [NBitcoin](https://github.com/NicolasDorier/NBitcoin/blob/master/NBitcoin/Script.cs#L814) (.NET Bindings)
+- [node-libbitcoinconsensus](https://github.com/bitpay/node-libbitcoinconsensus) (Node.js Bindings)
+- [java-libbitcoinconsensus](https://github.com/dexX7/java-libbitcoinconsensus) (Java Bindings)
+- [bitcoinconsensus-php](https://github.com/Bit-Wasp/bitcoinconsensus-php) (PHP Bindings)

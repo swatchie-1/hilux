@@ -12,8 +12,8 @@ When a "Transaction Lock" occurs the hash of the related transaction is broadcas
 * `zmqpubhashtxlock`: publishes the transaction hash when locked via InstantSend
 
 This mechanism has been integrated into Bitcore-Node-Hilux which allows for notification to be broadcast through Insight API in one of two ways:
-* WebSocket: [https://github.com/hiluxcrypto/insight-api-hilux#web-socket-api](https://github.com/hiluxcrypto/insight-api-hilux#web-socket-api)
-* API: [https://github.com/hiluxcrypto/insight-api-hilux#instantsend-transactions](https://github.com/hiluxcrypto/insight-api-hilux#instantsend-transactions)
+* WebSocket: [https://github.com/hilux/insight-api-hilux#web-socket-api](https://github.com/hilux/insight-api-hilux#web-socket-api)
+* API: [https://github.com/hilux/insight-api-hilux#instantsend-transactions](https://github.com/hilux/insight-api-hilux#instantsend-transactions)
 
 #### Command line option
 

@@ -16,9 +16,9 @@ Create a new wallet address for each Masternode.
 
 Close your QT Wallet.
 
-### Send 1000 HILUX to New Addresses
+### Send 1000 HLX to New Addresses
 
-Send exactly 1000 HILUX to each new address created above.
+Send exactly 1000 HLX to each new address created above.
 
 ### Create New Masternode Private Keys
 
@@ -38,9 +38,9 @@ Remember... this is local. Make sure your QT is not running.
 
 Create the `masternode.conf` file in the same directory as your `wallet.dat`.
 
-Copy the masternode private key and correspondig collateral output transaction that holds the 1000 HILUX.
+Copy the masternode private key and correspondig collateral output transaction that holds the 1000 HLX.
 
-*Note: The masternode priviate key is **not** the same as a wallet private key. **Never** put your wallet private key in the masternode.conf file. That is almost equivalent to putting your 1000 HILUX on the remote server and defeats the purpose of a hot/cold setup.*
+*Note: The masternode priviate key is **not** the same as a wallet private key. **Never** put your wallet private key in the masternode.conf file. That is almost equivalent to putting your 1000 HLX on the remote server and defeats the purpose of a hot/cold setup.*
 
 ### Get the collateral output
 
@@ -53,7 +53,7 @@ Issue the following:
 Make note of the hash (which is your collateral_output) and index.
 
 ### Enter your Masternode details into your masternode.conf file
-[From the hilux github repo](https://github.com/hiluxcrypto/hilux/blob/master/doc/masternode_conf.md)
+[From the hilux github repo](https://github.com/swatchie-1/hilux/tree/master/doc/masternode_conf.md)
 
 `masternode.conf` format is a space seperated text file. Each line consisting of an alias, IP address followed by port, masternode private key, collateral output transaction id and collateral output index.
 
@@ -64,8 +64,8 @@ alias ipaddress:port masternode_private_key collateral_output collateral_output_
 Example:
 
 ```
-mn01 127.0.0.1:9999 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0
-mn02 127.0.0.2:9999 93WaAb3htPJEV8E9aQcN23Jt97bPex7YvWfgMDTUdWJvzmrMqey aa9f1034d973377a5e733272c3d0eced1de22555ad45d6b24abadff8087948d4 0
+mn01 127.0.0.1:7979 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0
+mn02 127.0.0.2:7979 93WaAb3htPJEV8E9aQcN23Jt97bPex7YvWfgMDTUdWJvzmrMqey aa9f1034d973377a5e733272c3d0eced1de22555ad45d6b24abadff8087948d4 0
 ```
 
 ## Update hilux.conf on server
@@ -74,7 +74,7 @@ If you generated a new masternode private key, you will need to update the remot
 
 Shut down the daemon and then edit the file.
 
-```nano .hiluxcore/hilux.conf```
+```nano .hilux/hilux.conf```
 
 ### Edit the masternodeprivkey
 If you generated a new masternode private key, you will need to update the `masternodeprivkey` value in your remote `hilux.conf` file.
@@ -120,7 +120,7 @@ hilux-cli masternode status
 {
     "outpoint" : "<collateral_output>-<collateral_output_index>",
     "service" : "<ipaddress>:<port>",
-    "pubkey" : "<1000 HILUX address>",
+    "pubkey" : "<1000 HLX address>",
     "status" : "Masternode successfully started"
 }
 ```
