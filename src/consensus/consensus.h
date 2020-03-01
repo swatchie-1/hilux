@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_CONSENSUS_CONSENSUS_H
-#define HILUX_CONSENSUS_CONSENSUS_H
+#ifndef BITCOIN_CONSENSUS_CONSENSUS_H
+#define BITCOIN_CONSENSUS_CONSENSUS_H
 
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
 static const unsigned int MAX_LEGACY_BLOCK_SIZE = 1000000;
@@ -18,6 +18,8 @@ inline unsigned int MaxBlockSigOps(bool fDIP0001Active /*= false */)
 {
     return MaxBlockSize(fDIP0001Active) / 50;
 }
+/** The maximum allowed size of version 3 extra payload */
+static const unsigned int MAX_TX_EXTRA_PAYLOAD = 10000;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 100;
 
@@ -30,4 +32,4 @@ enum {
     LOCKTIME_MEDIAN_TIME_PAST = (1 << 1),
 };
 
-#endif // HILUX_CONSENSUS_CONSENSUS_H
+#endif // BITCOIN_CONSENSUS_CONSENSUS_H

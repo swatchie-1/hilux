@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_CONSENSUS_VALIDATION_H
-#define HILUX_CONSENSUS_VALIDATION_H
+#ifndef BITCOIN_CONSENSUS_VALIDATION_H
+#define BITCOIN_CONSENSUS_VALIDATION_H
 
 #include <string>
 
@@ -22,9 +22,9 @@ static const unsigned char REJECT_CHECKPOINT = 0x43;
 class CValidationState {
 private:
     enum mode_state {
-        MODE_VALID,   //! everything ok
-        MODE_INVALID, //! network rule violation (DoS value may be set)
-        MODE_ERROR,   //! run-time error
+        MODE_VALID,   //!< everything ok
+        MODE_INVALID, //!< network rule violation (DoS value may be set)
+        MODE_ERROR,   //!< run-time error
     } mode;
     int nDoS;
     std::string strRejectReason;
@@ -82,4 +82,4 @@ public:
     std::string GetDebugMessage() const { return strDebugMessage; }
 };
 
-#endif // HILUX_CONSENSUS_VALIDATION_H
+#endif // BITCOIN_CONSENSUS_VALIDATION_H

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_BENCH_BENCH_H
-#define HILUX_BENCH_BENCH_H
+#ifndef BITCOIN_BENCH_BENCH_H
+#define BITCOIN_BENCH_BENCH_H
 
 #include <map>
 #include <string>
@@ -40,14 +40,21 @@ namespace benchmark {
         std::string name;
         double maxElapsed;
         double beginTime;
-        double lastTime, minTime, maxTime;
-        int64_t count;
-        int64_t timeCheckCount;
+        double lastTime, minTime, maxTime, countMaskInv;
+        uint64_t count;
+        uint64_t countMask;
+        uint64_t beginCycles;
+        uint64_t lastCycles;
+        uint64_t minCycles;
+        uint64_t maxCycles;
     public:
         State(std::string _name, double _maxElapsed) : name(_name), maxElapsed(_maxElapsed), count(0) {
             minTime = std::numeric_limits<double>::max();
             maxTime = std::numeric_limits<double>::min();
-            timeCheckCount = 1;
+            minCycles = std::numeric_limits<uint64_t>::max();
+            maxCycles = std::numeric_limits<uint64_t>::min();
+            countMask = 1;
+            countMaskInv = 1./(countMask + 1);
         }
         bool KeepRunning();
     };
@@ -56,7 +63,8 @@ namespace benchmark {
 
     class BenchRunner
     {
-        static std::map<std::string, BenchFunction> benchmarks;
+        typedef std::map<std::string, BenchFunction> BenchmarkMap;
+        static BenchmarkMap &benchmarks();
 
     public:
         BenchRunner(std::string name, BenchFunction func);
@@ -69,4 +77,4 @@ namespace benchmark {
 #define BENCHMARK(n) \
     benchmark::BenchRunner BOOST_PP_CAT(bench_, BOOST_PP_CAT(__LINE__, n))(BOOST_PP_STRINGIZE(n), n);
 
-#endif // HILUX_BENCH_BENCH_H
+#endif // BITCOIN_BENCH_BENCH_H
