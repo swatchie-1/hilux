@@ -5,13 +5,13 @@
 
 #include "paymentserver.h"
 
-#include "hiluxunits.h"
+#include "bitcoinunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 
 #include "base58.h"
 #include "chainparams.h"
-#include "validation.h" // For minRelayTxFee
+#include "policy/policy.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "wallet/wallet.h"
@@ -47,8 +47,8 @@
 #include <QUrlQuery>
 #endif
 
-const int HILUX_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString HILUX_IPC_PREFIX("hilux:");
+const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
+const QString BITCOIN_IPC_PREFIX("hilux:");
 // BIP70 payment protocol messages
 const char* BIP70_MESSAGE_PAYMENTACK = "PaymentACK";
 const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
@@ -56,8 +56,6 @@ const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
 const char* BIP71_MIMETYPE_PAYMENT = "application/hilux-payment";
 const char* BIP71_MIMETYPE_PAYMENTACK = "application/hilux-paymentack";
 const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/hilux-paymentrequest";
-// BIP70 max payment request size in bytes (DoS protection)
-const qint64 BIP70_MAX_PAYMENTREQUEST_SIZE = 50000;
 
 struct X509StoreDeleter {
       void operator()(X509_STORE* b) {
@@ -86,7 +84,7 @@ static QString ipcServerName()
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
     // for -testnet versus main net
-    QString ddir(QString::fromStdString(GetDataDir(true).string()));
+    QString ddir(GUIUtil::boostPathToQString(GetDataDir(true)));
     name.append(QString::number(qHash(ddir)));
 
     return name;
@@ -214,14 +212,14 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         // network as that would require fetching and parsing the payment request.
         // That means clicking such an URI which contains a testnet payment request
         // will start a mainnet instance and throw a "wrong network" error.
-        if (arg.startsWith(HILUX_IPC_PREFIX, Qt::CaseInsensitive)) // hilux: URI
+        if (arg.startsWith(BITCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // hilux: URI
         {
             savedPaymentRequests.append(arg);
 
             SendCoinsRecipient r;
-            if (GUIUtil::parseHiluxURI(arg, &r) && !r.address.isEmpty())
+            if (GUIUtil::parseBitcoinURI(arg, &r) && !r.address.isEmpty())
             {
-                CHiluxAddress address(r.address.toStdString());
+                CBitcoinAddress address(r.address.toStdString());
 
                 if (address.IsValid(Params(CBaseChainParams::MAIN)))
                 {
@@ -272,7 +270,7 @@ bool PaymentServer::ipcSendCommandLine()
     {
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
-        if (!socket->waitForConnected(HILUX_IPC_CONNECT_TIMEOUT))
+        if (!socket->waitForConnected(BITCOIN_IPC_CONNECT_TIMEOUT))
         {
             delete socket;
             socket = NULL;
@@ -287,7 +285,7 @@ bool PaymentServer::ipcSendCommandLine()
 
         socket->write(block);
         socket->flush();
-        socket->waitForBytesWritten(HILUX_IPC_CONNECT_TIMEOUT);
+        socket->waitForBytesWritten(BITCOIN_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
 
         delete socket;
@@ -408,7 +406,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         return;
     }
 
-    if (s.startsWith(HILUX_IPC_PREFIX, Qt::CaseInsensitive)) // hilux: URI
+    if (s.startsWith(BITCOIN_IPC_PREFIX, Qt::CaseInsensitive)) // hilux: URI
     {
 #if QT_VERSION < 0x050000
         QUrl uri(s);
@@ -440,9 +438,9 @@ void PaymentServer::handleURIOrFile(const QString& s)
         else // normal URI
         {
             SendCoinsRecipient recipient;
-            if (GUIUtil::parseHiluxURI(s, &recipient))
+            if (GUIUtil::parseBitcoinURI(s, &recipient))
             {
-                CHiluxAddress address(recipient.address.toStdString());
+                CBitcoinAddress address(recipient.address.toStdString());
                 if (!address.IsValid()) {
                     Q_EMIT message(tr("URI handling"), tr("Invalid payment address %1").arg(recipient.address),
                         CClientUIInterface::MSG_ERROR);
@@ -561,7 +559,7 @@ bool PaymentServer::processPaymentRequest(const PaymentRequestPlus& request, Sen
         CTxDestination dest;
         if (ExtractDestination(sendingTo.first, dest)) {
             // Append destination address
-            addresses.append(QString::fromStdString(CHiluxAddress(dest).ToString()));
+            addresses.append(QString::fromStdString(CBitcoinAddress(dest).ToString()));
         }
         else if (!recipient.authenticatedMerchant.isEmpty()) {
             // Unauthenticated payment requests to custom hilux addresses are not supported
@@ -583,9 +581,9 @@ bool PaymentServer::processPaymentRequest(const PaymentRequestPlus& request, Sen
 
         // Extract and check amounts
         CTxOut txOut(sendingTo.second, sendingTo.first);
-        if (txOut.IsDust(::minRelayTxFee)) {
+        if (txOut.IsDust(dustRelayFee)) {
             Q_EMIT message(tr("Payment request error"), tr("Requested payment amount of %1 is too small (considered dust).")
-                .arg(HiluxUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
+                .arg(BitcoinUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
                 CClientUIInterface::MSG_ERROR);
 
             return false;
@@ -750,9 +748,9 @@ void PaymentServer::reportSslErrors(QNetworkReply* reply, const QList<QSslError>
     Q_EMIT message(tr("Network request error"), errString, CClientUIInterface::MSG_ERROR);
 }
 
-void PaymentServer::setOptionsModel(OptionsModel *optionsModel)
+void PaymentServer::setOptionsModel(OptionsModel *_optionsModel)
 {
-    this->optionsModel = optionsModel;
+    this->optionsModel = _optionsModel;
 }
 
 void PaymentServer::handlePaymentACK(const QString& paymentACKMsg)

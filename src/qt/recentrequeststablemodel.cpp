@@ -4,7 +4,7 @@
 
 #include "recentrequeststablemodel.h"
 
-#include "hiluxunits.h"
+#include "bitcoinunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 
@@ -83,11 +83,11 @@ QVariant RecentRequestsTableModel::data(const QModelIndex &index, int role) cons
             }
         case Amount:
             if (rec->recipient.amount == 0 && role == Qt::DisplayRole)
-                return tr("(no amount)");
+                return tr("(no amount requested)");
             else if (role == Qt::EditRole)
-                return HiluxUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount, false, HiluxUnits::separatorNever);
+                return BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount, false, BitcoinUnits::separatorNever);
             else
-                return HiluxUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount);
+                return BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount);
         }
     }
     else if (role == Qt::TextAlignmentRole)
@@ -125,12 +125,7 @@ void RecentRequestsTableModel::updateAmountColumnTitle()
 /** Gets title for amount column including current display unit if optionsModel reference available. */
 QString RecentRequestsTableModel::getAmountTitle()
 {
-    QString amountTitle = tr("Amount");
-    if (this->walletModel->getOptionsModel() != NULL)
-    {
-        amountTitle += " ("+HiluxUnits::name(this->walletModel->getOptionsModel()->getDisplayUnit()) + ")";
-    }
-    return amountTitle;
+    return (this->walletModel->getOptionsModel() != NULL) ? tr("Requested") + " ("+BitcoinUnits::name(this->walletModel->getOptionsModel()->getDisplayUnit()) + ")" : "";
 }
 
 QModelIndex RecentRequestsTableModel::index(int row, int column, const QModelIndex &parent) const
@@ -157,7 +152,6 @@ bool RecentRequestsTableModel::removeRows(int row, int count, const QModelIndex 
         beginRemoveRows(parent, row, row + count - 1);
         list.erase(list.begin() + row, list.begin() + row + count);
         endRemoveRows();
-        emitCountChanged();
         return true;
     } else {
         return false;
@@ -210,7 +204,6 @@ void RecentRequestsTableModel::addNewRequest(RecentRequestEntry &recipient)
     beginInsertRows(QModelIndex(), 0, 0);
     list.prepend(recipient);
     endInsertRows();
-    emitCountChanged();
 }
 
 void RecentRequestsTableModel::sort(int column, Qt::SortOrder order)
@@ -222,16 +215,6 @@ void RecentRequestsTableModel::sort(int column, Qt::SortOrder order)
 void RecentRequestsTableModel::updateDisplayUnit()
 {
     updateAmountColumnTitle();
-}
-
-void RecentRequestsTableModel::emitCountChanged() 
-{
-    Q_EMIT countChanged(list.count());
-}
-
-int RecentRequestsTableModel::count()
-{
-    return list.count();
 }
 
 bool RecentRequestEntryLessThan::operator()(RecentRequestEntry &left, RecentRequestEntry &right) const

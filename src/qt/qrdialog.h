@@ -2,20 +2,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_RECEIVEREQUESTDIALOG_H
-#define BITCOIN_QT_RECEIVEREQUESTDIALOG_H
+#ifndef BITCOIN_QT_QRDIALOG_H
+#define BITCOIN_QT_QRDIALOG_H
 
 #include "walletmodel.h"
 
 #include <QDialog>
 #include <QImage>
 #include <QLabel>
-#include <QPainter>
 
 class OptionsModel;
 
 namespace Ui {
-    class ReceiveRequestDialog;
+    class QRDialog;
 }
 
 QT_BEGIN_NAMESPACE
@@ -25,12 +24,12 @@ QT_END_NAMESPACE
 /* Label widget for QR code. This image can be dragged, dropped, copied and saved
  * to disk.
  */
-class QRImageWidget : public QLabel
+class QRGeneralImageWidget : public QLabel
 {
     Q_OBJECT
 
 public:
-    explicit QRImageWidget(QWidget *parent = 0);
+    explicit QRGeneralImageWidget(QWidget *parent = 0);
     QImage exportImage();
 
 public Q_SLOTS:
@@ -38,34 +37,34 @@ public Q_SLOTS:
     void copyImage();
 
 protected:
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void contextMenuEvent(QContextMenuEvent *event) override;
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent *event);
 
 private:
     QMenu *contextMenu;
 };
 
-class ReceiveRequestDialog : public QDialog
+class QRDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ReceiveRequestDialog(QWidget *parent = 0);
-    ~ReceiveRequestDialog();
+    explicit QRDialog(QWidget *parent = 0);
+    ~QRDialog();
 
     void setModel(OptionsModel *model);
-    void setInfo(const SendCoinsRecipient &info);
+    void setInfo(QString strWindowtitle, QString strQRCode, QString strTextInfo, QString strQRCodeTitle);
 
 private Q_SLOTS:
-    void on_btnCopyURI_clicked();
-    void on_btnCopyAddress_clicked();
-
     void update();
 
 private:
-    Ui::ReceiveRequestDialog *ui;
+    Ui::QRDialog *ui;
     OptionsModel *model;
-    SendCoinsRecipient info;
+    QString strWindowtitle;
+    QString strQRCode;
+    QString strTextInfo;
+    QString strQRCodeTitle;
 };
 
-#endif // BITCOIN_QT_RECEIVEREQUESTDIALOG_H
+#endif // BITCOIN_QT_QRDIALOG_H

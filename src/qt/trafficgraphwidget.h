@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_QT_TRAFFICGRAPHWIDGET_H
-#define HILUX_QT_TRAFFICGRAPHWIDGET_H
+#ifndef BITCOIN_QT_TRAFFICGRAPHWIDGET_H
+#define BITCOIN_QT_TRAFFICGRAPHWIDGET_H
 
 #include "trafficgraphdata.h"
 
@@ -47,4 +47,4 @@ private:
     TrafficGraphData trafficGraphData;
 };
 
-#endif // HILUX_QT_TRAFFICGRAPHWIDGET_H
+#endif // BITCOIN_QT_TRAFFICGRAPHWIDGET_H

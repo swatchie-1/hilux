@@ -2,10 +2,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_QT_TRANSACTIONTABLEMODEL_H
-#define HILUX_QT_TRANSACTIONTABLEMODEL_H
+#ifndef BITCOIN_QT_TRANSACTIONTABLEMODEL_H
+#define BITCOIN_QT_TRANSACTIONTABLEMODEL_H
 
-#include "hiluxunits.h"
+#include "bitcoinunits.h"
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -30,10 +30,11 @@ public:
     enum ColumnIndex {
         Status = 0,
         Watchonly = 1,
-        Date = 2,
-        Type = 3,
-        ToAddress = 4,
-        Amount = 5
+        InstantSend = 2,
+        Date = 3,
+        Type = 4,
+        ToAddress = 5,
+        Amount = 6
     };
 
     /** Roles to get specific information from a transaction row.
@@ -48,6 +49,10 @@ public:
         WatchonlyRole,
         /** Watch-only icon */
         WatchonlyDecorationRole,
+        /** InstantSend boolean */
+        InstantSendRole,
+        /** InstantSend icon */
+        InstantSendDecorationRole,
         /** Long description (HTML format) */
         LongDescriptionRole,
         /** Address of transaction */
@@ -98,10 +103,11 @@ private:
     QString formatTxDate(const TransactionRecord *wtx) const;
     QString formatTxType(const TransactionRecord *wtx) const;
     QString formatTxToAddress(const TransactionRecord *wtx, bool tooltip) const;
-    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, HiluxUnits::SeparatorStyle separators=HiluxUnits::separatorStandard) const;
+    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, BitcoinUnits::SeparatorStyle separators=BitcoinUnits::separatorStandard) const;
     QString formatTooltip(const TransactionRecord *rec) const;
     QVariant txStatusDecoration(const TransactionRecord *wtx) const;
     QVariant txWatchonlyDecoration(const TransactionRecord *wtx) const;
+    QVariant txInstantSendDecoration(const TransactionRecord *wtx) const;
     QVariant txAddressDecoration(const TransactionRecord *wtx) const;
 
 public Q_SLOTS:
@@ -117,4 +123,4 @@ public Q_SLOTS:
     friend class TransactionTablePriv;
 };
 
-#endif // HILUX_QT_TRANSACTIONTABLEMODEL_H
+#endif // BITCOIN_QT_TRANSACTIONTABLEMODEL_H
