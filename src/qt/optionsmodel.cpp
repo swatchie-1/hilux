@@ -9,7 +9,7 @@
 
 #include "optionsmodel.h"
 
-#include "hiluxunits.h"
+#include "bitcoinunits.h"
 #include "guiutil.h"
 
 #include "amount.h"
@@ -39,7 +39,7 @@ OptionsModel::OptionsModel(QObject *parent, bool resetSettings) :
 
 void OptionsModel::addOverriddenOption(const std::string &option)
 {
-    strOverriddenByCommandLine += QString::fromStdString(option) + "=" + QString::fromStdString(mapArgs[option]) + " ";
+    strOverriddenByCommandLine += QString::fromStdString(option) + "=" + QString::fromStdString(GetArg(option, "")) + " ";
 }
 
 // Writes all missing QSettings with their default values
@@ -47,6 +47,8 @@ void OptionsModel::Init(bool resetSettings)
 {
     if (resetSettings)
         Reset();
+
+    checkAndMigrate();
 
     this->resetSettings = resetSettings;
 
@@ -73,7 +75,7 @@ void OptionsModel::Init(bool resetSettings)
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", HiluxUnits::HLX);
+        settings.setValue("nDisplayUnit", BitcoinUnits::HILUX);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
 
     if (!settings.contains("strThirdPartyTxUrls"))
@@ -86,10 +88,7 @@ void OptionsModel::Init(bool resetSettings)
 #ifdef ENABLE_WALLET
     if (!settings.contains("fCoinControlFeatures"))
         settings.setValue("fCoinControlFeatures", false);
-
-    fCoinControlFeatures = settings.value("fCoinControlFeatures", true).toBool();
-
-
+    fCoinControlFeatures = settings.value("fCoinControlFeatures", false).toBool();
 
     if (!settings.contains("digits"))
         settings.setValue("digits", "2");
@@ -97,9 +96,13 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("fShowMasternodesTab"))
         settings.setValue("fShowMasternodesTab", masternodeConfig.getCount());
 
+    // PrivateSend
     if (!settings.contains("fShowAdvancedPSUI"))
         settings.setValue("fShowAdvancedPSUI", false);
     fShowAdvancedPSUI = settings.value("fShowAdvancedPSUI", false).toBool();
+
+    if (!settings.contains("fShowPrivateSendPopups"))
+        settings.setValue("fShowPrivateSendPopups", true);
 
     if (!settings.contains("fLowKeysWarning"))
         settings.setValue("fLowKeysWarning", true);
@@ -127,9 +130,9 @@ void OptionsModel::Init(bool resetSettings)
     // Wallet
 #ifdef ENABLE_WALLET
     if (!settings.contains("bSpendZeroConfChange"))
-        settings.setValue("bSpendZeroConfChange", false);
-//    if (!SoftSetBoolArg("-spendzeroconfchange", settings.value("bSpendZeroConfChange").toBool()))
-//        addOverriddenOption("-spendzeroconfchange");
+        settings.setValue("bSpendZeroConfChange", true);
+    if (!SoftSetBoolArg("-spendzeroconfchange", settings.value("bSpendZeroConfChange").toBool()))
+        addOverriddenOption("-spendzeroconfchange");
 
     // PrivateSend
     if (!settings.contains("nPrivateSendRounds"))
@@ -272,6 +275,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("fShowMasternodesTab");
         case ShowAdvancedPSUI:
             return fShowAdvancedPSUI;
+        case ShowPrivateSendPopups:
+            return settings.value("fShowPrivateSendPopups");
         case LowKeysWarning:
             return settings.value("fLowKeysWarning");
         case PrivateSendRounds:
@@ -422,6 +427,9 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             settings.setValue("fShowAdvancedPSUI", fShowAdvancedPSUI);
             Q_EMIT advancedPSUIChanged(fShowAdvancedPSUI);
             break;
+        case ShowPrivateSendPopups:
+            settings.setValue("fShowPrivateSendPopups", value);
+            break;
         case LowKeysWarning:
             settings.setValue("fLowKeysWarning", value);
             break;
@@ -481,14 +489,10 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             break;
 #ifdef ENABLE_WALLET
         case CoinControlFeatures:
-
             fCoinControlFeatures = value.toBool();
             settings.setValue("fCoinControlFeatures", fCoinControlFeatures);
             Q_EMIT coinControlFeaturesChanged(fCoinControlFeatures);
-            
-
-	    break;
-
+            break;
 #endif // ENABLE_WALLET
         case DatabaseCache:
             if (settings.value("nDatabaseCache") != value) {
@@ -558,4 +562,23 @@ bool OptionsModel::isRestartRequired()
 {
     QSettings settings;
     return settings.value("fRestartRequired", false).toBool();
+}
+
+void OptionsModel::checkAndMigrate()
+{
+    // Migration of default values
+    // Check if the QSettings container was already loaded with this client version
+    QSettings settings;
+    static const char strSettingsVersionKey[] = "nSettingsVersion";
+    int settingsVersion = settings.contains(strSettingsVersionKey) ? settings.value(strSettingsVersionKey).toInt() : 0;
+    if (settingsVersion < CLIENT_VERSION)
+    {
+        // -dbcache was bumped from 100 to 300 in 0.13
+        // see https://github.com/bitcoin/bitcoin/pull/8273
+        // force people to upgrade to the new value if they are using 100MB
+        if (settingsVersion < 130000 && settings.contains("nDatabaseCache") && settings.value("nDatabaseCache").toLongLong() == 100)
+            settings.setValue("nDatabaseCache", (qint64)nDefaultDbCache);
+
+        settings.setValue(strSettingsVersionKey, CLIENT_VERSION);
+    }
 }

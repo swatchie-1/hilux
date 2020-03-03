@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="ar">locale/hilux_ar.qm</file>
+        <file alias="bg">locale/hilux_bg.qm</file>
+        <file alias="de">locale/hilux_de.qm</file>
+        <file alias="en">locale/hilux_en.qm</file>
+        <file alias="es">locale/hilux_es.qm</file>
+        <file alias="fi">locale/hilux_fi.qm</file>
+        <file alias="fr">locale/hilux_fr.qm</file>
+        <file alias="it">locale/hilux_it.qm</file>
+        <file alias="ja">locale/hilux_ja.qm</file>
+        <file alias="ko">locale/hilux_ko.qm</file>
+        <file alias="nl">locale/hilux_nl.qm</file>
+        <file alias="pl">locale/hilux_pl.qm</file>
+        <file alias="pt">locale/hilux_pt.qm</file>
+        <file alias="ru">locale/hilux_ru.qm</file>
+        <file alias="sk">locale/hilux_sk.qm</file>
+        <file alias="sv">locale/hilux_sv.qm</file>
+        <file alias="th">locale/hilux_th.qm</file>
+        <file alias="tr">locale/hilux_tr.qm</file>
+        <file alias="vi">locale/hilux_vi.qm</file>
+        <file alias="zh_CN">locale/hilux_zh_CN.qm</file>
+        <file alias="zh_TW">locale/hilux_zh_TW.qm</file>
+    </qresource>
+</RCC>

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_QT_ADDRESSTABLEMODEL_H
-#define HILUX_QT_ADDRESSTABLEMODEL_H
+#ifndef BITCOIN_QT_ADDRESSTABLEMODEL_H
+#define BITCOIN_QT_ADDRESSTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -26,7 +26,7 @@ public:
 
     enum ColumnIndex {
         Label = 0,   /**< User specified label */
-        Address = 1  /**< Hilux address */
+        Address = 1  /**< Bitcoin address */
     };
 
     enum RoleIndex {
@@ -92,4 +92,4 @@ public Q_SLOTS:
     friend class AddressTablePriv;
 };
 
-#endif // HILUX_QT_ADDRESSTABLEMODEL_H
+#endif // BITCOIN_QT_ADDRESSTABLEMODEL_H

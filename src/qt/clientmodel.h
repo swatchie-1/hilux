@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_QT_CLIENTMODEL_H
-#define HILUX_QT_CLIENTMODEL_H
+#ifndef BITCOIN_QT_CLIENTMODEL_H
+#define BITCOIN_QT_CLIENTMODEL_H
 
 #include <QObject>
 #include <QDateTime>
@@ -82,7 +82,6 @@ public:
     QString formatFullVersion() const;
     QString formatSubVersion() const;
     bool isReleaseVersion() const;
-    QString clientName() const;
     QString formatClientStartupTime() const;
     QString dataDir() const;
 
@@ -127,4 +126,4 @@ public Q_SLOTS:
     void updateBanlist();
 };
 
-#endif // HILUX_QT_CLIENTMODEL_H
+#endif // BITCOIN_QT_CLIENTMODEL_H

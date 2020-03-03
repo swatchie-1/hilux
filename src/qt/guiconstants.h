@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_QT_GUICONSTANTS_H
-#define HILUX_QT_GUICONSTANTS_H
+#ifndef BITCOIN_QT_GUICONSTANTS_H
+#define BITCOIN_QT_GUICONSTANTS_H
 
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 250;
@@ -34,6 +34,8 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 #define COLOR_TX_STATUS_DANGER QColor(200, 100, 100)
 /* Transaction list -- TX status decoration - default color */
 #define COLOR_BLACK QColor(0, 0, 0)
+/* Transaction list -- TX status decoration - LockedByInstantSend color */
+#define COLOR_TX_STATUS_LOCKED QColor(0, 128, 255)
 
 /* Tooltips longer than this (in characters) are converted into rich text,
    so that they can be word-wrapped.
@@ -44,7 +46,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 static const int MAX_URI_LENGTH = 255;
 
 /* QRCodeDialog -- size of exported QR Code image */
-#define EXPORT_IMAGE_SIZE 256
+#define QR_IMAGE_SIZE 300
 
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
@@ -53,5 +55,6 @@ static const int MAX_URI_LENGTH = 255;
 #define QAPP_ORG_DOMAIN "hilux.org"
 #define QAPP_APP_NAME_DEFAULT "Hilux-Qt"
 #define QAPP_APP_NAME_TESTNET "Hilux-Qt-testnet"
+#define QAPP_APP_NAME_DEVNET "Hilux-Qt-%s"
 
-#endif // HILUX_QT_GUICONSTANTS_H
+#endif // BITCOIN_QT_GUICONSTANTS_H

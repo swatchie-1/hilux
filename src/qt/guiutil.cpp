@@ -5,14 +5,14 @@
 
 #include "guiutil.h"
 
-#include "hiluxaddressvalidator.h"
-#include "hiluxunits.h"
+#include "bitcoinaddressvalidator.h"
+#include "bitcoinunits.h"
 #include "qvalidatedlineedit.h"
 #include "walletmodel.h"
 
 #include "primitives/transaction.h"
 #include "init.h"
-#include "validation.h" // For minRelayTxFee
+#include "policy/policy.h"
 #include "protocol.h"
 #include "script/script.h"
 #include "script/standard.h"
@@ -109,6 +109,23 @@ QFont fixedPitchFont()
 #endif
 }
 
+// Just some dummy data to generate an convincing random-looking (but consistent) address
+static const uint8_t dummydata[] = {0xeb,0x15,0x23,0x1d,0xfc,0xeb,0x60,0x92,0x58,0x86,0xb6,0x7d,0x06,0x52,0x99,0x92,0x59,0x15,0xae,0xb1,0x72,0xc0,0x66,0x47};
+
+// Generate a dummy address with invalid CRC, starting with the network prefix.
+static std::string DummyAddress(const CChainParams &params)
+{
+    std::vector<unsigned char> sourcedata = params.Base58Prefix(CChainParams::PUBKEY_ADDRESS);
+    sourcedata.insert(sourcedata.end(), dummydata, dummydata + sizeof(dummydata));
+    for(int i=0; i<256; ++i) { // Try every trailing byte
+        std::string s = EncodeBase58(sourcedata.data(), sourcedata.data() + sourcedata.size());
+        if (!CBitcoinAddress(s).IsValid())
+            return s;
+        sourcedata[sourcedata.size()-1] += 1;
+    }
+    return "";
+}
+
 void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 {
     parent->setFocusProxy(widget);
@@ -117,10 +134,11 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 #if QT_VERSION >= 0x040700
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    widget->setPlaceholderText(QObject::tr("Enter a Hilux address (e.g. %1)").arg("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    widget->setPlaceholderText(QObject::tr("Enter a Hilux address (e.g. %1)").arg(
+        QString::fromStdString(DummyAddress(Params()))));
 #endif
-    widget->setValidator(new HiluxAddressEntryValidator(parent));
-    widget->setCheckValidator(new HiluxAddressCheckValidator(parent));
+    widget->setValidator(new BitcoinAddressEntryValidator(parent));
+    widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
 }
 
 void setupAmountWidget(QLineEdit *widget, QWidget *parent)
@@ -132,7 +150,7 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
-bool parseHiluxURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no hilux: URI
     if(!uri.isValid() || uri.scheme() != QString("hilux"))
@@ -184,7 +202,7 @@ bool parseHiluxURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!HiluxUnits::parse(HiluxUnits::HLX, i->second, &rv.amount))
+                if(!BitcoinUnits::parse(BitcoinUnits::HILUX, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -202,7 +220,7 @@ bool parseHiluxURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parseHiluxURI(QString uri, SendCoinsRecipient *out)
+bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 {
     // Convert hilux:// to hilux:
     //
@@ -213,17 +231,17 @@ bool parseHiluxURI(QString uri, SendCoinsRecipient *out)
         uri.replace(0, 7, "hilux:");
     }
     QUrl uriInstance(uri);
-    return parseHiluxURI(uriInstance, out);
+    return parseBitcoinURI(uriInstance, out);
 }
 
-QString formatHiluxURI(const SendCoinsRecipient &info)
+QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
     QString ret = QString("hilux:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(HiluxUnits::format(HiluxUnits::HLX, info.amount, false, HiluxUnits::separatorNever));
+        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::HILUX, info.amount, false, BitcoinUnits::separatorNever));
         paramCount++;
     }
 
@@ -252,10 +270,10 @@ QString formatHiluxURI(const SendCoinsRecipient &info)
 
 bool isDust(const QString& address, const CAmount& amount)
 {
-    CTxDestination dest = CHiluxAddress(address.toStdString()).Get();
+    CTxDestination dest = CBitcoinAddress(address.toStdString()).Get();
     CScript script = GetScriptForDestination(dest);
     CTxOut txOut(amount, script);
-    return txOut.IsDust(::minRelayTxFee);
+    return txOut.IsDust(dustRelayFee);
 }
 
 QString HtmlEscape(const QString& str, bool fMultiLine)
@@ -422,7 +440,7 @@ void openDebugLogfile()
 
 void openConfigfile()
 {
-    boost::filesystem::path pathConfig = GetConfigFile();
+    boost::filesystem::path pathConfig = GetConfigFile(GetArg("-conf", BITCOIN_CONF_FILENAME));
 
     /* Open hilux.conf with the associated application */
     if (boost::filesystem::exists(pathConfig))
@@ -483,9 +501,9 @@ void SubstituteFonts(const QString& language)
 #endif
 }
 
-ToolTipToRichTextFilter::ToolTipToRichTextFilter(int size_threshold, QObject *parent) :
+ToolTipToRichTextFilter::ToolTipToRichTextFilter(int _size_threshold, QObject *parent) :
     QObject(parent),
-    size_threshold(size_threshold)
+    size_threshold(_size_threshold)
 {
 
 }
@@ -565,7 +583,7 @@ int TableViewLastColumnResizingFixer::getAvailableWidthForColumn(int column)
     return nResult;
 }
 
-// Make sure we don't make the columns wider than the tables viewport width.
+// Make sure we don't make the columns wider than the table's viewport width.
 void TableViewLastColumnResizingFixer::adjustTableColumnsWidth()
 {
     disconnectViewHeadersSignals();
@@ -599,7 +617,7 @@ void TableViewLastColumnResizingFixer::on_sectionResized(int logicalIndex, int o
     }
 }
 
-// When the tabless geometry is ready, we manually perform the stretch of the "Message" column,
+// When the table's geometry is ready, we manually perform the stretch of the "Message" column,
 // as the "Stretch" resize mode does not allow for interactive resizing.
 void TableViewLastColumnResizingFixer::on_geometriesChanged()
 {
@@ -791,6 +809,8 @@ bool SetStartOnSystemStartup(bool fAutoStart)
 
 
 #elif defined(Q_OS_MAC)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 // based on: https://github.com/Mozketo/LaunchAtLoginController/blob/master/LaunchAtLoginController.m
 
 #include <CoreFoundation/CoreFoundation.h>
@@ -831,21 +851,21 @@ LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef
 
 bool GetStartOnSystemStartup()
 {
-    CFURLRef hiluxAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, hiluxAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, bitcoinAppUrl);
     return !!foundItem; // return boolified object
 }
 
 bool SetStartOnSystemStartup(bool fAutoStart)
 {
-    CFURLRef hiluxAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, hiluxAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, bitcoinAppUrl);
 
     if(fAutoStart && !foundItem) {
         // add Hilux Core app to startup item list
-        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, hiluxAppUrl, NULL, NULL);
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, bitcoinAppUrl, NULL, NULL);
     }
     else if(!fAutoStart && foundItem) {
         // remove item
@@ -853,6 +873,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
     }
     return true;
 }
+#pragma GCC diagnostic pop
 #else
 
 bool GetStartOnSystemStartup() { return false; }
@@ -1002,6 +1023,9 @@ QString formatServicesStr(quint64 mask)
                 break;
             case NODE_BLOOM:
                 strList.append("BLOOM");
+                break;
+            case NODE_XTHIN:
+                strList.append("XTHIN");
                 break;
             default:
                 strList.append(QString("%1[%2]").arg("UNKNOWN").arg(check));
