@@ -13,82 +13,82 @@ void URITests::uriTests()
 {
     SendCoinsRecipient rv;
     QUrl uri;
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?req-dontexist="));
-    QVERIFY(!GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?req-dontexist="));
+    QVERIFY(!GUIUtil::parseBitcoinURI(uri, &rv));
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?dontexist="));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?dontexist="));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 0);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?label=Some Example Address"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?label=Some Example Address"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString("Some Example Address"));
     QVERIFY(rv.amount == 0);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=0.001"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=0.001"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 100000);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=1.001"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=1.001"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 100100000);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=100&label=Some Example"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=100&label=Some Example"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.amount == 10000000000LL);
     QVERIFY(rv.label == QString("Some Example"));
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?message=Some Example Address"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?message=Some Example Address"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString());
 
-    QVERIFY(GUIUtil::parseHiluxURI("hilux://MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?message=Some Example Address", &rv));
-    QVERIFY(rv.address == QString("MbWMQqUNEosjjEb9WAGuJ5KGN9h4WL5bqf"));
+    QVERIFY(GUIUtil::parseBitcoinURI("hilux://PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?message=Some Example Address", &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.label == QString());
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?req-message=Some Example Address"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?req-message=Some Example Address"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=1,000&label=Some Example"));
-    QVERIFY(!GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=1,000&label=Some Example"));
+    QVERIFY(!GUIUtil::parseBitcoinURI(uri, &rv));
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=1,000.0&label=Some Example"));
-    QVERIFY(!GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=1,000.0&label=Some Example"));
+    QVERIFY(!GUIUtil::parseBitcoinURI(uri, &rv));
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=100&label=Some Example&message=Some Example Message&IS=1"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=100&label=Some Example&message=Some Example Message&IS=1"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.amount == 10000000000LL);
     QVERIFY(rv.label == QString("Some Example"));
     QVERIFY(rv.message == QString("Some Example Message"));
     QVERIFY(rv.fUseInstantSend == 1);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?amount=100&label=Some Example&message=Some Example Message&IS=Something Invalid"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
-    QVERIFY(rv.address == QString("MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg"));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?amount=100&label=Some Example&message=Some Example Message&IS=Something Invalid"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
+    QVERIFY(rv.address == QString("PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
     QVERIFY(rv.amount == 10000000000LL);
     QVERIFY(rv.label == QString("Some Example"));
     QVERIFY(rv.message == QString("Some Example Message"));
     QVERIFY(rv.fUseInstantSend != 1);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?IS=1"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?IS=1"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
     QVERIFY(rv.fUseInstantSend == 1);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg?IS=0"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV?IS=0"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
     QVERIFY(rv.fUseInstantSend != 1);
 
-    uri.setUrl(QString("hilux:MwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg"));
-    QVERIFY(GUIUtil::parseHiluxURI(uri, &rv));
+    uri.setUrl(QString("hilux:PPvrqyQCVHD4MZL3fFFKn4FDQo38ji24cV"));
+    QVERIFY(GUIUtil::parseBitcoinURI(uri, &rv));
     QVERIFY(rv.fUseInstantSend != 1);
 }
