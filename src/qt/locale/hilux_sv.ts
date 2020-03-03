@@ -217,7 +217,7 @@
     </message>
 </context>
 <context>
-    <name>HiluxGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>Hilux Core</source>
         <translation>Hilux Core
@@ -2136,8 +2136,8 @@ https://www.transifex.com/projects/p/hilux/</translation>
         <translation>Version %1</translation>
     </message>
     <message>
-        <source>The Hilux Core developers</source>
-        <translation>Hilux Core-utvecklarna</translation>
+        <source>The Bitcoin Core developers</source>
+        <translation>Bitcoin Core-utvecklarna</translation>
     </message>
     <message>
         <source>The Hilux Core developers</source>
@@ -3066,8 +3066,8 @@ https://www.transifex.com/projects/p/hilux/</translation>
         <translation>Lösenord för JSON-RPC-anslutningar</translation>
     </message>
     <message>
-        <source>RPC SSL options: (see the Hilux Wiki for SSL setup instructions)</source>
-        <translation>RPC SSL-alternativ: (Se Hilux Wiki för SSL-inställningsinstruktioner)</translation>
+        <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation>RPC SSL-alternativ: (Se Bitcoin Wiki för SSL-inställningsinstruktioner)</translation>
     </message>
     <message>
         <source>RPC server options:</source>
