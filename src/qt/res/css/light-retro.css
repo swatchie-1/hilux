@@ -1,5 +1,5 @@
 WalletFrame {
-border-image: url(':/images/light/drkblue_walletFrame_bg') 0 0 0 0 stretch stretch;
+border-image: url(':/images/light-retro/drkblue_walletFrame_bg') 0 0 0 0 stretch stretch;
 border-top:0px solid #000;
 margin:0;
 padding-top:20px;
@@ -58,7 +58,7 @@ color:#333;
 }
 
 QToolBar > QToolButton:checked {
-background-color:#ff2424;
+background-color:#1c75bc;
 color:#fff;
 font-weight:bold;
 }
@@ -103,7 +103,7 @@ background-color:#f2f2f2;
 /*******************************************************/
 
 QPushButton { /* Global Button Style */
-background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #ff6363, stop: .1 #ff2424, stop: .95 #ff2424, stop: 1 #1D80B5);
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #4ca5dc, stop: .1 #2c85cc, stop: .95 #2c85cc, stop: 1 #1D80B5);
 border:0;
 border-radius:3px;
 color:#ffffff;
@@ -117,7 +117,7 @@ padding-bottom:5px;
 }
 
 QPushButton:hover {
-background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #ff6363, stop: .1 #ff6363, stop: .95 #ff6363, stop: 1 #1D80B5);
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #4ca5dc, stop: .1 #4ca5dc, stop: .95 #4ca5dc, stop: 1 #1D80B5);
 }
 
 QPushButton:focus {
@@ -142,7 +142,7 @@ background:#f2f2f2;
 }
 
 QComboBox:editable {
-background: #ba0700;
+background: #1c75bc;
 color:#616161;
 border:0px solid transparent;
 }
@@ -153,7 +153,7 @@ border:0px;
 }
 
 QComboBox::down-arrow {
-border-image: url(':/images/light/drkblue_downArrow') 0 0 0 0 stretch stretch;
+border-image: url(':/images/light-retro/drkblue_downArrow') 0 0 0 0 stretch stretch;
 }
 
 QComboBox QListView {
@@ -208,7 +208,7 @@ padding-top:2px;
 }
 
 QAbstractSpinBox::up-arrow {
-image:url(':/images/light/drkblue_upArrow_small');
+image:url(':/images/light-retro/drkblue_upArrow_small');
 }
 
 QAbstractSpinBox::down-button {
@@ -226,7 +226,7 @@ padding-bottom:2px;
 }
 
 QAbstractSpinBox::down-arrow {
-image:url(':/images/light/drkblue_downArrow_small');
+image:url(':/images/light-retro/drkblue_downArrow_small');
 }
 
 QCheckBox {
@@ -239,35 +239,35 @@ height: 16px;
 }
 
 QCheckBox::indicator:unchecked {
-image:url(':/images/light/unchecked');
+image:url(':/images/light-retro/unchecked');
 }
 
 QCheckBox::indicator:unchecked:hover {
-image:url(':/images/light/unchecked');
+image:url(':/images/light-retro/unchecked');
 }
 
 QCheckBox::indicator:unchecked:pressed {
-image:url(':/images/light/checked');
+image:url(':/images/light-retro/checked');
 }
 
 QCheckBox::indicator:checked {
-image:url(':/images/light/checked');
+image:url(':/images/light-retro/checked');
 }
 
 QCheckBox::indicator:checked:hover {
-image:url(':/images/light/checked');
+image:url(':/images/light-retro/checked');
 }
 
 QCheckBox::indicator:checked:pressed {
-image:url(':/images/light/unchecked');
+image:url(':/images/light-retro/unchecked');
 }
 
 QCheckBox::indicator:indeterminate:hover {
-image:url(':/images/light/unchecked');
+image:url(':/images/light-retro/unchecked');
 }
 
 QCheckBox::indicator:indeterminate:pressed {
-image:url(':/images/light/checked');
+image:url(':/images/light-retro/checked');
 }
 
 /*******************************************************/
@@ -278,7 +278,7 @@ background-color:transparent;
 
 QHeaderView::section { /* Table Header Sections */
 qproperty-alignment:center;
-background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #cc0000, stop: 1 #000000);
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #1070B0, stop: 1 #1c75bc);
 color:#fff;
 min-height:25px;
 font-weight:bold;
@@ -386,19 +386,19 @@ height:10px;
 }
 
 QScrollBar:up-arrow {
-background-image: url(':/images/light/drkblue_upArrow_small');
+background-image: url(':/images/light-retro/drkblue_upArrow_small');
 }
 
 QScrollBar:down-arrow {
-background-image: url(':/images/light/drkblue_downArrow_small');
+background-image: url(':/images/light-retro/drkblue_downArrow_small');
 }
 
 QScrollBar:left-arrow {
-background-image: url(':/images/light/drkblue_leftArrow_small');
+background-image: url(':/images/light-retro/drkblue_leftArrow_small');
 }
 
 QScrollBar:right-arrow {
-background-image: url(':/images/light/drkblue_rightArrow_small');
+background-image: url(':/images/light-retro/drkblue_rightArrow_small');
 }
 
 
@@ -508,7 +508,7 @@ background-color:#fff;
 }
 
 QDialog#SignVerifyMessageDialog QPushButton#pasteButton_SM { /* Paste Button */
-/* qproperty-icon: url(":/icons/light/drkblue_editpaste"); */
+/* qproperty-icon: url(":/icons/light-retro/drkblue_editpaste"); */
 background-color:transparent;
 padding-left:15px;
 }
@@ -518,7 +518,7 @@ font-size:10px;
 }
 
 QDialog#SignVerifyMessageDialog QPushButton#copySignatureButton_SM { /* Copy Button */
-/* qproperty-icon: url(":/icons/light/drkblue_editcopy"); */
+/* qproperty-icon: url(":/icons/light-retro/drkblue_editcopy"); */
 background-color:transparent;
 padding-left:10px;
 padding-right:10px;
@@ -699,7 +699,7 @@ min-width:180px;
 }
 
 QDialog#RPCConsole QWidget#tab_peers  QLabel#peerHeading { /* Peers Info Header */
-color:#ba0700;
+color:#1c75bc;
 }
 
 QDialog#RPCConsole QPushButton#openDebugLogfileButton {
@@ -743,16 +743,16 @@ QDialog#HelpMessageDialog QScrollBar:vertical, QDialog#HelpMessageDialog QScroll
 border:0;
 }
 
-/* About HILUX Dialog */
+/* About Hilux Dialog */
 QDialog#AboutDialog {
 background-color:#F8F6F6;
 }
 
-QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About HILUX Contents */
+QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Hilux Contents */
 margin-left:10px;
 }
 
-QDialog#AboutDialog QLabel#label_2 { /* Margin for About HILUX text */
+QDialog#AboutDialog QLabel#label_2 { /* Margin for About Hilux text */
 margin-right:10px;
 }
 
@@ -809,7 +809,7 @@ margin-left:16px;
 QWidget .QFrame#frame .QLabel#labelBalanceText { /* Available Balance Label */
 qproperty-alignment: 'AlignVCenter | AlignRight';
 min-width:160px;
-background-color:#000000;
+background-color:#1c75bc;
 color:#ffffff;
 margin-right:5px;
 padding-right:5px;
@@ -821,7 +821,7 @@ min-height:35px;
 QWidget .QFrame#frame .QLabel#labelBalance { /* Available Balance */
 qproperty-alignment: 'AlignVCenter | AlignLeft';
 font-size:16px;
-color:#000000;
+color:#1c75bc;
 margin-left:0px;
     font-weight: bold;
 }
@@ -913,7 +913,7 @@ QWidget .QFrame#framePrivateSend .QLabel#labelPrivateSendHeader { /* PrivateSend
 qproperty-alignment: 'AlignVCenter | AlignCenter';
 max-width: 421px;
 min-width: 421px;
-background-color:#000000;
+background-color:#1c75bc;
 color:#fff;
 margin-right: 5px;
 padding-right: 5px;
@@ -970,7 +970,7 @@ color:#818181;
 }
 
 QWidget .QFrame#framePrivateSend #privateSendFormLayoutWidget .QProgressBar#privateSendProgress::chunk {
-background-color: #000000;
+background-color: #1c75bc;
 width:1px;
 }
 
@@ -1109,7 +1109,7 @@ min-width:410px;
 margin-right:20px;
 margin-left:0;
 margin-top:15px;
-background-image: url(':/images/light/hilux_logo_horizontal');
+background-image: url(':/images/light-retro/hilux_logo_horizontal');
 background-repeat:none;
 }
 
@@ -1159,7 +1159,7 @@ background-color:transparent;
 }
 
 QWidget#contentWidget { /* The actual content with the text/buttons/etc... */
-border-image: url(':/images/light/drkblue_walletFrame_bg') 0 0 0 0 stretch stretch;
+border-image: url(':/images/light-retro/drkblue_walletFrame_bg') 0 0 0 0 stretch stretch;
 border-top:0px solid #000;
 margin:0;
 padding-top:20px;
@@ -1472,7 +1472,7 @@ color:#333;
 }
 
 QDialog#CoinControlDialog .CoinControlTreeWidget#treeWidget::branch:selected { /* Coin Control Branch Icon */
-background-image: url(':/images/light/drkblue_qtreeview_selected');
+background-image: url(':/images/light-retro/drkblue_qtreeview_selected');
 background-repeat:no-repeat;
 background-position:center;
 background-color:#f7f7f7;
@@ -1480,7 +1480,7 @@ color:#333;
 }
 
 QDialog#CoinControlDialog .CoinControlTreeWidget#treeWidget::branch:checked { /* Coin Control Branch Icon */
-background-image: url(':/images/light/drkblue_qtreeview_selected');
+background-image: url(':/images/light-retro/drkblue_qtreeview_selected');
 background-repeat:no-repeat;
 background-position:center;
 background-color:#f7f7f7;
@@ -1636,7 +1636,7 @@ QLabel#transactionSumLabel { /* Example of setObjectName for widgets without nam
 color:#333333;
 font-weight:bold;
 }
-
+ 
 QLabel#transactionSum { /* Example of setObjectName for widgets without name */
 color:#333333;
 }
@@ -1650,3 +1650,5 @@ background-color:#F8F6F6;
 QDialog#TransactionDescDialog QTextEdit { /* Contents of Receive Coin Dialog */
 border:1px solid #d7d7d7;
 }
+
+

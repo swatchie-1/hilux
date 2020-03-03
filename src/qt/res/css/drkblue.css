@@ -745,7 +745,7 @@ QDialog#AboutDialog {
 background-color:#F8F6F6;
 }
 
-QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Bitcoin Contents */
+QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Hilux Contents */
 margin-left:10px;
 }
 
@@ -1579,6 +1579,16 @@ background-color:#F8F6F6;
 }
 
 QDialog#ReceiveRequestDialog QTextEdit { /* Contents of Receive Coin Dialog */
+border:1px solid #d7d7d7;
+}
+
+/* General QR-code DIALOG */
+
+QDialog#QRDialog {
+background-color:#F8F6F6;
+}
+
+QDialog#QRDialog QTextEdit { /* Contents of QR-code Dialog */
 border:1px solid #d7d7d7;
 }
 
