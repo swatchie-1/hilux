@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_SCRIPT_SIGN_H
-#define HILUX_SCRIPT_SIGN_H
+#ifndef BITCOIN_SCRIPT_SIGN_H
+#define BITCOIN_SCRIPT_SIGN_H
 
 #include "script/interpreter.h"
 
@@ -39,16 +39,16 @@ class TransactionSignatureCreator : public BaseSignatureCreator {
 
 public:
     TransactionSignatureCreator(const CKeyStore* keystoreIn, const CTransaction* txToIn, unsigned int nInIn, int nHashTypeIn=SIGHASH_ALL);
-    const BaseSignatureChecker& Checker() const { return checker; }
-    bool CreateSig(std::vector<unsigned char>& vchSig, const CKeyID& keyid, const CScript& scriptCode) const;
+    const BaseSignatureChecker& Checker() const  override{ return checker; }
+    bool CreateSig(std::vector<unsigned char>& vchSig, const CKeyID& keyid, const CScript& scriptCode) const override;
 };
 
-/** A signature creator that just produces 72-byte empty signatyres. */
+/** A signature creator that just produces 72-byte empty signatures. */
 class DummySignatureCreator : public BaseSignatureCreator {
 public:
     DummySignatureCreator(const CKeyStore* keystoreIn) : BaseSignatureCreator(keystoreIn) {}
-    const BaseSignatureChecker& Checker() const;
-    bool CreateSig(std::vector<unsigned char>& vchSig, const CKeyID& keyid, const CScript& scriptCode) const;
+    const BaseSignatureChecker& Checker() const override;
+    bool CreateSig(std::vector<unsigned char>& vchSig, const CKeyID& keyid, const CScript& scriptCode) const override;
 };
 
 /** Produce a script signature using a generic signature creator. */
@@ -64,4 +64,4 @@ CScript CombineSignatures(const CScript& scriptPubKey, const BaseSignatureChecke
 /** Combine two script signatures on transactions. */
 CScript CombineSignatures(const CScript& scriptPubKey, const CTransaction& txTo, unsigned int nIn, const CScript& scriptSig1, const CScript& scriptSig2);
 
-#endif // HILUX_SCRIPT_SIGN_H
+#endif // BITCOIN_SCRIPT_SIGN_H

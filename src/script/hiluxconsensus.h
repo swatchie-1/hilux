@@ -3,10 +3,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_HILUXCONSENSUS_H
-#define HILUX_HILUXCONSENSUS_H
+#ifndef BITCOIN_BITCOINCONSENSUS_H
+#define BITCOIN_BITCOINCONSENSUS_H
 
-#if defined(BUILD_HILUX_INTERNAL) && defined(HAVE_CONFIG_H)
+#if defined(BUILD_BITCOIN_INTERNAL) && defined(HAVE_CONFIG_H)
 #include "config/hilux-config.h"
   #if defined(_WIN32)
     #if defined(DLL_EXPORT)
@@ -19,7 +19,7 @@
   #elif defined(HAVE_FUNC_ATTRIBUTE_VISIBILITY)
     #define EXPORT_SYMBOL __attribute__ ((visibility ("default")))
   #endif
-#elif defined(MSC_VER) && !defined(STATIC_LIBHILUXCONSENSUS)
+#elif defined(MSC_VER) && !defined(STATIC_LIBBITCOINCONSENSUS)
   #define EXPORT_SYMBOL __declspec(dllimport)
 #endif
 
@@ -31,7 +31,7 @@
 extern "C" {
 #endif
 
-#define HILUXCONSENSUS_API_VER 0
+#define BITCOINCONSENSUS_API_VER 0
 
 typedef enum hiluxconsensus_error_t
 {
@@ -39,6 +39,7 @@ typedef enum hiluxconsensus_error_t
     hiluxconsensus_ERR_TX_INDEX,
     hiluxconsensus_ERR_TX_SIZE_MISMATCH,
     hiluxconsensus_ERR_TX_DESERIALIZE,
+    hiluxconsensus_ERR_INVALID_FLAGS,
 } hiluxconsensus_error;
 
 /** Script verification flags */
@@ -47,7 +48,12 @@ enum
     hiluxconsensus_SCRIPT_FLAGS_VERIFY_NONE                = 0,
     hiluxconsensus_SCRIPT_FLAGS_VERIFY_P2SH                = (1U << 0), // evaluate P2SH (BIP16) subscripts
     hiluxconsensus_SCRIPT_FLAGS_VERIFY_DERSIG              = (1U << 2), // enforce strict DER (BIP66) compliance
+    hiluxconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY           = (1U << 4), // enforce NULLDUMMY (BIP147)
     hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY = (1U << 9), // enable CHECKLOCKTIMEVERIFY (BIP65)
+    hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY = (1U << 10), // enable CHECKSEQUENCEVERIFY (BIP112)
+    hiluxconsensus_SCRIPT_FLAGS_VERIFY_ALL                 = hiluxconsensus_SCRIPT_FLAGS_VERIFY_P2SH | hiluxconsensus_SCRIPT_FLAGS_VERIFY_DERSIG |
+                                                            hiluxconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY | hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY |
+                                                            hiluxconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY
 };
 
 /// Returns 1 if the input nIn of the serialized transaction pointed to by
@@ -66,4 +72,4 @@ EXPORT_SYMBOL unsigned int hiluxconsensus_version();
 
 #undef EXPORT_SYMBOL
 
-#endif // HILUX_HILUXCONSENSUS_H
+#endif // BITCOIN_BITCOINCONSENSUS_H
