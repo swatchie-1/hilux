@@ -1,9 +1,9 @@
-// Copyright (c) 2015 The Bitcoin Core developers
+// Copyright (c) 2014 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_ZMQ_ZMQCONFIG_H
-#define HILUX_ZMQ_ZMQCONFIG_H
+#ifndef BITCOIN_ZMQ_ZMQCONFIG_H
+#define BITCOIN_ZMQ_ZMQCONFIG_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/hilux-config.h"
@@ -19,6 +19,11 @@
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 
+#include "governance-object.h"
+#include "governance-vote.h"
+
+#include "instantx.h"
+
 void zmqError(const char *str);
 
-#endif // HILUX_ZMQ_ZMQCONFIG_H
+#endif // BITCOIN_ZMQ_ZMQCONFIG_H
