@@ -1,8 +1,14 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Copyright (c) 2014-2018 The Dash Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 bin_PROGRAMS += qt/hilux-qt
 EXTRA_LIBRARIES += qt/libhiluxqt.a
 
 # hilux qt core #
 QT_TS = \
+  qt/locale/hilux_ar.ts \
   qt/locale/hilux_bg.ts \
   qt/locale/hilux_de.ts \
   qt/locale/hilux_en.ts \
@@ -11,11 +17,16 @@ QT_TS = \
   qt/locale/hilux_fr.ts \
   qt/locale/hilux_it.ts \
   qt/locale/hilux_ja.ts \
+  qt/locale/hilux_ko.ts \
+  qt/locale/hilux_nl.ts \
   qt/locale/hilux_pl.ts \
   qt/locale/hilux_pt.ts \
+  qt/locale/hilux_pt_BR.ts \
   qt/locale/hilux_ru.ts \
   qt/locale/hilux_sk.ts \
   qt/locale/hilux_sv.ts \
+  qt/locale/hilux_th.ts \
+  qt/locale/hilux_tr.ts \
   qt/locale/hilux_vi.ts \
   qt/locale/hilux_zh_CN.ts \
   qt/locale/hilux_zh_TW.ts
@@ -30,6 +41,7 @@ QT_FORMS_UI = \
   qt/forms/intro.ui \
   qt/forms/modaloverlay.ui \
   qt/forms/masternodelist.ui \
+  qt/forms/qrdialog.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
@@ -38,8 +50,6 @@ QT_FORMS_UI = \
   qt/forms/debugwindow.ui \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
-  qt/forms/settingspage.ui \
-  qt/forms/toolspage.ui \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/transactiondescdialog.ui
 
@@ -48,10 +58,10 @@ QT_MOC_CPP = \
   qt/moc_addresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
   qt/moc_bantablemodel.cpp \
-  qt/moc_hiluxaddressvalidator.cpp \
-  qt/moc_hiluxamountfield.cpp \
-  qt/moc_hiluxgui.cpp \
-  qt/moc_hiluxunits.cpp \
+  qt/moc_bitcoinaddressvalidator.cpp \
+  qt/moc_bitcoinamountfield.cpp \
+  qt/moc_bitcoingui.cpp \
+  qt/moc_bitcoinunits.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
   qt/moc_coincontroltreewidget.cpp \
@@ -71,6 +81,7 @@ QT_MOC_CPP = \
   qt/moc_overviewpage.cpp \
   qt/moc_peertablemodel.cpp \
   qt/moc_paymentserver.cpp \
+  qt/moc_qrdialog.cpp \
   qt/moc_qvalidatedlineedit.cpp \
   qt/moc_qvaluecombobox.cpp \
   qt/moc_receivecoinsdialog.cpp \
@@ -79,8 +90,6 @@ QT_MOC_CPP = \
   qt/moc_rpcconsole.cpp \
   qt/moc_sendcoinsdialog.cpp \
   qt/moc_sendcoinsentry.cpp \
-  qt/moc_settingspage.cpp \
-  qt/moc_toolspage.cpp \
   qt/moc_signverifymessagedialog.cpp \
   qt/moc_splashscreen.cpp \
   qt/moc_trafficgraphwidget.cpp \
@@ -94,13 +103,13 @@ QT_MOC_CPP = \
   qt/moc_walletmodel.cpp \
   qt/moc_walletview.cpp
 
-HILUX_MM = \
+BITCOIN_MM = \
   qt/macdockiconhandler.mm \
   qt/macnotificationhandler.mm
 
 QT_MOC = \
   qt/hilux.moc \
-  qt/hiluxamountfield.moc \
+  qt/bitcoinamountfield.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
   qt/rpcconsole.moc
@@ -114,15 +123,15 @@ PROTOBUF_CC = qt/paymentrequest.pb.cc
 PROTOBUF_H = qt/paymentrequest.pb.h
 PROTOBUF_PROTO = qt/paymentrequest.proto
 
-HILUX_QT_H = \
+BITCOIN_QT_H = \
   qt/addressbookpage.h \
   qt/addresstablemodel.h \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
-  qt/hiluxaddressvalidator.h \
-  qt/hiluxamountfield.h \
-  qt/hiluxgui.h \
-  qt/hiluxunits.h \
+  qt/bitcoinaddressvalidator.h \
+  qt/bitcoinamountfield.h \
+  qt/bitcoingui.h \
+  qt/bitcoinunits.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
   qt/coincontroltreewidget.h \
@@ -146,6 +155,7 @@ HILUX_QT_H = \
   qt/paymentserver.h \
   qt/peertablemodel.h \
   qt/platformstyle.h \
+  qt/qrdialog.h \
   qt/qvalidatedlineedit.h \
   qt/qvaluecombobox.h \
   qt/receivecoinsdialog.h \
@@ -154,8 +164,6 @@ HILUX_QT_H = \
   qt/rpcconsole.h \
   qt/sendcoinsdialog.h \
   qt/sendcoinsentry.h \
-  qt/settingspage.h \
-  qt/toolspage.h \
   qt/signverifymessagedialog.h \
   qt/splashscreen.h \
   qt/trafficgraphdata.h \
@@ -174,8 +182,9 @@ HILUX_QT_H = \
   qt/winshutdownmonitor.h
 
 RES_ICONS = \
-  qt/res/icons/hilux.ico \
-  qt/res/icons/hilux.png \
+  qt/res/icons/bitcoin.ico \
+  qt/res/icons/bitcoin_testnet.ico \
+  qt/res/icons/bitcoin.png \
   qt/res/icons/chevron.png \
   qt/res/icons/warning.png \
   qt/res/icons/drkblue/add.png \
@@ -220,6 +229,7 @@ RES_ICONS = \
   qt/res/icons/drkblue/synced.png \
   qt/res/icons/drkblue/transaction0.png \
   qt/res/icons/drkblue/transaction2.png \
+  qt/res/icons/drkblue/transaction_abandoned.png \
   qt/res/icons/drkblue/transaction_conflicted.png \
   qt/res/icons/drkblue/tx_inout.png \
   qt/res/icons/drkblue/tx_input.png \
@@ -230,7 +240,6 @@ RES_ICONS = \
   qt/res/icons/drkblue/verify.png \
   qt/res/icons/drkblue/fontbigger.png \
   qt/res/icons/drkblue/fontsmaller.png \
-  qt/res/icons/drkblue/transaction_abandoned.png \
   qt/res/icons/drkblue/network_disabled.png \
   qt/res/icons/crownium/add.png \
   qt/res/icons/crownium/address-book.png \
@@ -274,6 +283,7 @@ RES_ICONS = \
   qt/res/icons/crownium/synced.png \
   qt/res/icons/crownium/transaction0.png \
   qt/res/icons/crownium/transaction2.png \
+  qt/res/icons/crownium/transaction_abandoned.png \
   qt/res/icons/crownium/transaction_conflicted.png \
   qt/res/icons/crownium/tx_inout.png \
   qt/res/icons/crownium/tx_input.png \
@@ -284,12 +294,10 @@ RES_ICONS = \
   qt/res/icons/crownium/verify.png \
   qt/res/icons/crownium/fontbigger.png \
   qt/res/icons/crownium/fontsmaller.png \
-  qt/res/icons/crownium/transaction_abandoned.png \
   qt/res/icons/crownium/network_disabled.png \
   qt/res/icons/light/add.png \
   qt/res/icons/light/address-book.png \
   qt/res/icons/light/browse.png \
-  qt/res/icons/light/chevron-right.png \ 
   qt/res/icons/light/clock1.png \
   qt/res/icons/light/clock2.png \
   qt/res/icons/light/clock3.png \
@@ -341,20 +349,60 @@ RES_ICONS = \
   qt/res/icons/light/fontsmaller.png \
   qt/res/icons/light/transaction_abandoned.png \
   qt/res/icons/light/network_disabled.png \
-  qt/res/icons/light/wrench.png \
-  qt/res/icons/light/pw.png \
-  qt/res/icons/light/cancel.png \
-  qt/res/icons/light/info.png \
-  qt/res/icons/light/cloak.png \
-  qt/res/icons/light/inputs.png \
-  qt/res/icons/light/reset.png \
-  qt/res/icons/light/hidden.png \
-  qt/res/icons/light/alert.png \
-  qt/res/icons/light/fee.png \
-  qt/res/icons/light/user-add.png \
-  qt/res/icons/light/remove-disabled.png \
-  qt/res/icons/light/edit-disabled.png \
-  qt/res/icons/light/stop.png \
+  qt/res/icons/light-retro/add.png \
+  qt/res/icons/light-retro/address-book.png \
+  qt/res/icons/light-retro/browse.png \
+  qt/res/icons/light-retro/clock1.png \
+  qt/res/icons/light-retro/clock2.png \
+  qt/res/icons/light-retro/clock3.png \
+  qt/res/icons/light-retro/clock4.png \
+  qt/res/icons/light-retro/clock5.png \
+  qt/res/icons/light-retro/configure.png \
+  qt/res/icons/light-retro/connect0_16.png \
+  qt/res/icons/light-retro/connect1_16.png \
+  qt/res/icons/light-retro/connect2_16.png \
+  qt/res/icons/light-retro/connect3_16.png \
+  qt/res/icons/light-retro/connect4_16.png \
+  qt/res/icons/light-retro/debugwindow.png \
+  qt/res/icons/light-retro/drkblue_editpaste.png \
+  qt/res/icons/light-retro/drkblue_address-book.png \
+  qt/res/icons/light-retro/drkblue_editcopy.png \
+  qt/res/icons/light-retro/drkblue_remove.png \
+  qt/res/icons/light-retro/edit.png \
+  qt/res/icons/light-retro/editcopy.png \
+  qt/res/icons/light-retro/editpaste.png \
+  qt/res/icons/light-retro/export.png \
+  qt/res/icons/light-retro/eye.png \
+  qt/res/icons/light-retro/eye_minus.png \
+  qt/res/icons/light-retro/eye_plus.png \
+  qt/res/icons/light-retro/filesave.png \
+  qt/res/icons/light-retro/hd_disabled.png \
+  qt/res/icons/light-retro/hd_enabled.png \
+  qt/res/icons/light-retro/history.png \
+  qt/res/icons/light-retro/key.png \
+  qt/res/icons/light-retro/lock_closed.png \
+  qt/res/icons/light-retro/lock_open.png \
+  qt/res/icons/light-retro/masternodes.png \
+  qt/res/icons/light-retro/overview.png \
+  qt/res/icons/light-retro/quit.png \
+  qt/res/icons/light-retro/receive.png \
+  qt/res/icons/light-retro/remove.png \
+  qt/res/icons/light-retro/send.png \
+  qt/res/icons/light-retro/synced.png \
+  qt/res/icons/light-retro/transaction0.png \
+  qt/res/icons/light-retro/transaction2.png \
+  qt/res/icons/light-retro/transaction_conflicted.png \
+  qt/res/icons/light-retro/tx_inout.png \
+  qt/res/icons/light-retro/tx_input.png \
+  qt/res/icons/light-retro/tx_output.png \
+  qt/res/icons/light-retro/tx_mined.png \
+  qt/res/icons/light-retro/about.png \
+  qt/res/icons/light-retro/about_qt.png \
+  qt/res/icons/light-retro/verify.png \
+  qt/res/icons/light-retro/fontbigger.png \
+  qt/res/icons/light-retro/fontsmaller.png \
+  qt/res/icons/light-retro/transaction_abandoned.png \
+  qt/res/icons/light-retro/network_disabled.png \
   qt/res/icons/trad/add.png \
   qt/res/icons/trad/address-book.png \
   qt/res/icons/trad/browse.png \
@@ -397,6 +445,7 @@ RES_ICONS = \
   qt/res/icons/trad/synced.png \
   qt/res/icons/trad/transaction0.png \
   qt/res/icons/trad/transaction2.png \
+  qt/res/icons/trad/transaction_abandoned.png \
   qt/res/icons/trad/transaction_conflicted.png \
   qt/res/icons/trad/tx_inout.png \
   qt/res/icons/trad/tx_input.png \
@@ -407,15 +456,14 @@ RES_ICONS = \
   qt/res/icons/trad/verify.png \
   qt/res/icons/trad/fontbigger.png \
   qt/res/icons/trad/fontsmaller.png \
-  qt/res/icons/trad/transaction_abandoned.png \
   qt/res/icons/trad/network_disabled.png
 
-HILUX_QT_CPP = \
+BITCOIN_QT_BASE_CPP = \
   qt/bantablemodel.cpp \
-  qt/hiluxaddressvalidator.cpp \
-  qt/hiluxamountfield.cpp \
-  qt/hiluxgui.cpp \
-  qt/hiluxunits.cpp \
+  qt/bitcoinaddressvalidator.cpp \
+  qt/bitcoinamountfield.cpp \
+  qt/bitcoingui.cpp \
+  qt/bitcoinunits.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
@@ -435,12 +483,9 @@ HILUX_QT_CPP = \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp
 
-if TARGET_WINDOWS
-HILUX_QT_CPP += qt/winshutdownmonitor.cpp
-endif
+BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 
-if ENABLE_WALLET
-HILUX_QT_CPP += \
+BITCOIN_QT_WALLET_CPP = \
   qt/addressbookpage.cpp \
   qt/addresstablemodel.cpp \
   qt/askpassphrasedialog.cpp \
@@ -453,13 +498,12 @@ HILUX_QT_CPP += \
   qt/overviewpage.cpp \
   qt/paymentrequestplus.cpp \
   qt/paymentserver.cpp \
+  qt/qrdialog.cpp \
   qt/receivecoinsdialog.cpp \
   qt/receiverequestdialog.cpp \
   qt/recentrequeststablemodel.cpp \
   qt/sendcoinsdialog.cpp \
   qt/sendcoinsentry.cpp \
-  qt/settingspage.cpp \
-  qt/toolspage.cpp \
   qt/signverifymessagedialog.cpp \
   qt/transactiondesc.cpp \
   qt/transactiondescdialog.cpp \
@@ -471,6 +515,13 @@ HILUX_QT_CPP += \
   qt/walletmodel.cpp \
   qt/walletmodeltransaction.cpp \
   qt/walletview.cpp
+
+BITCOIN_QT_CPP = $(BITCOIN_QT_BASE_CPP)
+if TARGET_WINDOWS
+BITCOIN_QT_CPP += $(BITCOIN_QT_WINDOWS_CPP)
+endif
+if ENABLE_WALLET
+BITCOIN_QT_CPP += $(BITCOIN_QT_WALLET_CPP)
 endif
 
 RES_IMAGES = \
@@ -513,12 +564,19 @@ RES_IMAGES = \
   qt/res/images/light/drkblue_rightArrow_small.png \
   qt/res/images/light/drkblue_qtreeview_selected.png \
   qt/res/images/light/drkblue_walletFrame_bg.png \
-  qt/res/images/light/orchid222.png \
-  qt/res/images/light/static.png \
-  qt/res/images/light/radio_checked.png \
-  qt/res/images/light/radio_unchecked.png \
-  qt/res/images/light/radio_disabled_unchecked.png \
-  qt/res/images/light/radio_disabled_checked.png \
+  qt/res/images/light-retro/about.png \
+  qt/res/images/light-retro/splash.png \
+  qt/res/images/light-retro/splash_testnet.png \
+  qt/res/images/light-retro/hilux_logo_horizontal.png \
+  qt/res/images/light-retro/unchecked.png \
+  qt/res/images/light-retro/checked.png \
+  qt/res/images/light-retro/drkblue_downArrow.png \
+  qt/res/images/light-retro/drkblue_downArrow_small.png \
+  qt/res/images/light-retro/drkblue_upArrow_small.png \
+  qt/res/images/light-retro/drkblue_leftArrow_small.png \
+  qt/res/images/light-retro/drkblue_rightArrow_small.png \
+  qt/res/images/light-retro/drkblue_qtreeview_selected.png \
+  qt/res/images/light-retro/drkblue_walletFrame_bg.png \
   qt/res/images/trad/about.png \
   qt/res/images/trad/splash.png \
   qt/res/images/trad/splash_testnet.png \
@@ -535,20 +593,23 @@ RES_CSS = \
   qt/res/css/drkblue.css \
   qt/res/css/crownium.css \
   qt/res/css/light.css \
-  qt/res/css/light-hires.css 
+  qt/res/css/light-hires.css \
+  qt/res/css/light-retro.css \
+  qt/res/css/light-hires-retro.css \
+  qt/res/css/trad.css
 
-RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
+RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
 
-HILUX_RC = qt/res/hilux-qt-res.rc
+BITCOIN_RC = qt/res/hilux-qt-res.rc
 
-HILUX_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
-qt_libhiluxqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(HILUX_INCLUDES) $(HILUX_QT_INCLUDES) \
+qt_libhiluxqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 qt_libhiluxqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_libhiluxqt_a_SOURCES = $(HILUX_QT_CPP) $(HILUX_QT_H) $(QT_FORMS_UI) \
+qt_libhiluxqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
   $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES)
 
 nodist_qt_libhiluxqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
@@ -568,27 +629,27 @@ $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
 # hilux-qt binary #
-qt_hilux_qt_CPPFLAGS = $(AM_CPPFLAGS) $(HILUX_INCLUDES) $(HILUX_QT_INCLUDES) \
+qt_hilux_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 qt_hilux_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_hilux_qt_SOURCES = qt/hilux.cpp
 if TARGET_DARWIN
-  qt_hilux_qt_SOURCES += $(HILUX_MM)
+  qt_hilux_qt_SOURCES += $(BITCOIN_MM)
 endif
 if TARGET_WINDOWS
-  qt_hilux_qt_SOURCES += $(HILUX_RC)
+  qt_hilux_qt_SOURCES += $(BITCOIN_RC)
 endif
-qt_hilux_qt_LDADD = qt/libhiluxqt.a $(LIBHILUX_SERVER)
+qt_hilux_qt_LDADD = qt/libhiluxqt.a $(LIBBITCOIN_SERVER)
 if ENABLE_WALLET
-qt_hilux_qt_LDADD += $(LIBHILUX_WALLET)
+qt_hilux_qt_LDADD += $(LIBBITCOIN_WALLET)
 endif
 if ENABLE_ZMQ
-qt_hilux_qt_LDADD += $(LIBHILUX_ZMQ) $(ZMQ_LIBS)
+qt_hilux_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
-qt_hilux_qt_LDADD += $(LIBHILUX_CLI) $(LIBHILUX_COMMON) $(LIBHILUX_UTIL) $(LIBHILUX_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
+qt_hilux_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
-  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(BLS_LIBS)
 qt_hilux_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 qt_hilux_qt_LIBTOOLFLAGS = --tag CXX
 
@@ -597,19 +658,20 @@ QT_QM=$(QT_TS:.ts=.qm)
 
 SECONDARY: $(QT_QM)
 
-qt/hiluxstrings.cpp: $(libhilux_server_a_SOURCES) $(libhilux_wallet_a_SOURCES) $(libhilux_common_a_SOURCES) $(libhilux_zmq_a_SOURCES) $(libhilux_consensus_a_SOURCES) $(libhilux_util_a_SOURCES)
+$(srcdir)/qt/hiluxstrings.cpp: $(libhilux_server_a_SOURCES) $(libhilux_wallet_a_SOURCES) $(libhilux_common_a_SOURCES) $(libhilux_zmq_a_SOURCES) $(libhilux_consensus_a_SOURCES) $(libhilux_util_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
-	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) ../share/qt/extract_strings_qt.py $^
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" COPYRIGHT_HOLDERS="$(COPYRIGHT_HOLDERS)" COPYRIGHT_HOLDERS_SUBSTITUTION="$(COPYRIGHT_HOLDERS_SUBSTITUTION)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
 
-translate: qt/hiluxstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(HILUX_QT_CPP) qt/hilux.cpp $(HILUX_QT_H) $(HILUX_MM)
+translate: $(srcdir)/qt/hiluxstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_BASE_CPP) qt/hilux.cpp $(BITCOIN_QT_WINDOWS_CPP) $(BITCOIN_QT_WALLET_CPP) $(BITCOIN_QT_H) $(BITCOIN_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts qt/locale/hilux_en.ts
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/hilux_en.ts
 
 $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
-	@test -f $(@D)/$(<F) || cp -f $< $(@D)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) $(RCCFLAGS) -name hilux_locale $(@D)/$(<F) | \
+	@cp -f $< $(@D)/temp_$(<F)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) $(RCCFLAGS) -name hilux_locale $(@D)/temp_$(<F) | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	@rm $(@D)/temp_$(<F)
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES) $(PROTOBUF_H)
 	@test -f $(RCC)
@@ -621,7 +683,7 @@ CLEAN_QT = $(nodist_qt_libhiluxqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt
 CLEANFILES += $(CLEAN_QT)
 
 hilux_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libhiluxqt_a_OBJECTS) $(qt_hilux_qt_OBJECTS) qt/hilux-qt$(EXEEXT) $(LIBHILUXQT)
+	rm -f $(CLEAN_QT) $(qt_libhiluxqt_a_OBJECTS) $(qt_hilux_qt_OBJECTS) qt/hilux-qt$(EXEEXT) $(LIBBITCOINQT)
 
 hilux_qt : qt/hilux-qt$(EXEEXT)
 
