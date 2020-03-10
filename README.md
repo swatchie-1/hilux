@@ -1,6 +1,14 @@
 Masternodes tabs are now automatically added upon installation.
 
 
+We are going to follow the Dash development and update to the latest codebase
+from Dash. Unfortunately, due to the nature of blockchain and features implemented
+by Dash team it is not possible to jump directly to the latest version. So a
+series of updates is planned as follows:
+
+ - v1.2.3.4 (based on Dash 0.12.3.4, latest in 0.12 series)
+ - v1.3.3.0 (based on Dash 0.13.3.0, latest in 0.13 series)
+ - v1.4.0.2 (based on Dash 0.14.0.2 or latest)
 
 APRIL 2019 MASTERNODE PATCH FIX
 ======================================

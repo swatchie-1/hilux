@@ -41,6 +41,7 @@ src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
 
+src/univalue/gen
 
 src/qt/*.moc
 src/qt/moc_*.cpp
@@ -60,7 +61,8 @@ libconftest.dylib*
 *.pyc
 *.o
 *.o-*
-.hilux
+*.patch
+!depends/patches/*/*.patch
 *.a
 *.pb.cc
 *.pb.h
@@ -78,6 +80,7 @@ libconftest.dylib*
 
 # Compilation and Qt preprocessor part
 *.qm
+Makefile
 hilux-qt
 Hilux-Qt.app
 
@@ -105,14 +108,10 @@ coverage_percent.txt
 linux-coverage-build
 linux-build
 win32-build
-qa/pull-tester/run-hiluxd-for-test.sh
 qa/pull-tester/tests_config.py
-qa/pull-tester/cache/*
-qa/pull-tester/test.*/*
-qa/tmp
-cache/
-share/HiluxdComparisonTool.jar
+qa/cache/*
 
+!src/leveldb*/Makefile
 
 .cproject
 .project
@@ -120,6 +119,7 @@ share/HiluxdComparisonTool.jar
 /doc/doxygen/
 
 libhiluxconsensus.pc
+contrib/devtools/split-debug.sh
 src/qt/hilux-qt.bash
 qa/pull-tester/tests-config.sh
 
@@ -129,9 +129,8 @@ hiluxd
 hilux-qt
 make
 
+/docker/bin
 
-
-
-
-
-
+# CLion
+.idea
+cmake-build-debug
