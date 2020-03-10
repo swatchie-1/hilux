@@ -11,8 +11,8 @@
  * - E-mail usually won't line-break if there's no punctuation to break at.
  * - Double-clicking selects the whole string as one word if it's all alphanumeric.
  */
-#ifndef HILUX_BASE58_H
-#define HILUX_BASE58_H
+#ifndef BITCOIN_BASE58_H
+#define BITCOIN_BASE58_H
 
 #include "chainparams.h"
 #include "key.h"
@@ -101,7 +101,7 @@ public:
  * Script-hash-addresses have version 16 (or 19 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CHiluxAddress : public CBase58Data {
+class CBitcoinAddress : public CBase58Data {
 public:
     bool Set(const CKeyID &id);
     bool Set(const CScriptID &id);
@@ -109,10 +109,10 @@ public:
     bool IsValid() const;
     bool IsValid(const CChainParams &params) const;
 
-    CHiluxAddress() {}
-    CHiluxAddress(const CTxDestination &dest) { Set(dest); }
-    CHiluxAddress(const std::string& strAddress) { SetString(strAddress); }
-    CHiluxAddress(const char* pszAddress) { SetString(pszAddress); }
+    CBitcoinAddress() {}
+    CBitcoinAddress(const CTxDestination &dest) { Set(dest); }
+    CBitcoinAddress(const std::string& strAddress) { SetString(strAddress); }
+    CBitcoinAddress(const char* pszAddress) { SetString(pszAddress); }
 
     CTxDestination Get() const;
     bool GetKeyID(CKeyID &keyID) const;
@@ -123,7 +123,7 @@ public:
 /**
  * A base58-encoded secret key
  */
-class CHiluxSecret : public CBase58Data
+class CBitcoinSecret : public CBase58Data
 {
 public:
     void SetKey(const CKey& vchSecret);
@@ -132,11 +132,11 @@ public:
     bool SetString(const char* pszSecret);
     bool SetString(const std::string& strSecret);
 
-    CHiluxSecret(const CKey& vchSecret) { SetKey(vchSecret); }
-    CHiluxSecret() {}
+    CBitcoinSecret(const CKey& vchSecret) { SetKey(vchSecret); }
+    CBitcoinSecret() {}
 };
 
-template<typename K, int Size, CChainParams::Base58Type Type> class CHiluxExtKeyBase : public CBase58Data
+template<typename K, int Size, CChainParams::Base58Type Type> class CBitcoinExtKeyBase : public CBase58Data
 {
 public:
     void SetKey(const K &key) {
@@ -148,24 +148,24 @@ public:
     K GetKey() {
         K ret;
         if (vchData.size() == Size) {
-            //if base58 encouded data not holds a ext key, return a !IsValid() key
+            // If base58 encoded data does not hold an ext key, return a !IsValid() key
             ret.Decode(&vchData[0]);
         }
         return ret;
     }
 
-    CHiluxExtKeyBase(const K &key) {
+    CBitcoinExtKeyBase(const K &key) {
         SetKey(key);
     }
 
-    CHiluxExtKeyBase(const std::string& strBase58c) {
+    CBitcoinExtKeyBase(const std::string& strBase58c) {
         SetString(strBase58c.c_str(), Params().Base58Prefix(Type).size());
     }
 
-    CHiluxExtKeyBase() {}
+    CBitcoinExtKeyBase() {}
 };
 
-typedef CHiluxExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CHiluxExtKey;
-typedef CHiluxExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CHiluxExtPubKey;
+typedef CBitcoinExtKeyBase<CExtKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_SECRET_KEY> CBitcoinExtKey;
+typedef CBitcoinExtKeyBase<CExtPubKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_PUBLIC_KEY> CBitcoinExtPubKey;
 
-#endif // HILUX_BASE58_H
+#endif // BITCOIN_BASE58_H
