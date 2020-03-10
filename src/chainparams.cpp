@@ -1,23 +1,22 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The Hilux Core developers
+// Copyright (c) 2014-2018 The Dash Core developers
+// Copyright (c) 2017-2019 The HILUX Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chainparams.h"
 #include "consensus/merkle.h"
 
-#include "uint256.h"
-#include "arith_uint256.h"
-
 #include "tinyformat.h"
 #include "util.h"
 #include "utilstrencodings.h"
 
+#include "arith_uint256.h"
+
 #include <assert.h>
+
 #include <boost/assign/list_of.hpp>
-#include <limits>
 
 #include "chainparamsseeds.h"
 
@@ -36,27 +35,44 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.nBits    = nBits;
     genesis.nNonce   = nNonce;
     genesis.nVersion = nVersion;
-    genesis.vtx.push_back(txNew);
+    genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
     return genesis;
 }
 
+static CBlock CreateDevNetGenesisBlock(const uint256 &prevBlockHash, const std::string& devNetName, uint32_t nTime, uint32_t nNonce, uint32_t nBits, const CAmount& genesisReward)
+{
+    assert(!devNetName.empty());
 
+    CMutableTransaction txNew;
+    txNew.nVersion = 1;
+    txNew.vin.resize(1);
+    txNew.vout.resize(1);
+    // put height (BIP34) and devnet name into coinbase
+    txNew.vin[0].scriptSig = CScript() << 1 << std::vector<unsigned char>(devNetName.begin(), devNetName.end());
+    txNew.vout[0].nValue = genesisReward;
+    txNew.vout[0].scriptPubKey = CScript() << OP_RETURN;
 
-
-
-
-
+    CBlock genesis;
+    genesis.nTime    = nTime;
+    genesis.nBits    = nBits;
+    genesis.nNonce   = nNonce;
+    genesis.nVersion = 4;
+    genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
+    genesis.hashPrevBlock = prevBlockHash;
+    genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
+    return genesis;
+}
 
 /**
  * Build the genesis block. Note that the output of its generation
  * transaction cannot be spent since it did not originally exist in the
  * database.
  *
- * CBlock(hash=00000ffd590b14, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=e0028e, nTime=1522190273, nBits=1e0ffff0, nNonce=28917698, vtx=1)
+ * CBlock(hash=00000ffd590b14, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=e0028e, nTime=1390095618, nBits=1e0ffff0, nNonce=28917698, vtx=1)
  *   CTransaction(hash=e0028e, ver=1, vin.size=1, vout.size=1, nLockTime=0)
- *     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d01044∑c5957697265642030392f4a616e2f3230313420546865204772616e64204578706572696d656e7420476f6573204c6976653a204f76657273746f636b2e636f6d204973204e6f7720416363657074696e6720426974636f696e73)
+ *     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d01044c5957697265642030392f4a616e2f3230313420546865204772616e64204578706572696d656e7420476f6573204c6976653a204f76657273746f636b2e636f6d204973204e6f7720416363657074696e6720426974636f696e73)
  *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
  *   vMerkleTree: e0028e
  */
@@ -65,6 +81,30 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
     const char* pszTimestamp = "Ethan is the Character in Mission Impossible Fallout 2018";
     const CScript genesisOutputScript = CScript() << ParseHex("04860ef4c8a6a35835f483555a605fd33ad7a7c3d3db3a35375c6d517c9f5369982dc577eecf8e22b363a7c6f6136960097d2a916e2d2ff4609283b75b98eb3ed3") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
+}
+
+static CBlock FindDevNetGenesisBlock(const Consensus::Params& params, const CBlock &prevBlock, const CAmount& reward)
+{
+    std::string devNetName = GetDevNetName();
+    assert(!devNetName.empty());
+
+    CBlock block = CreateDevNetGenesisBlock(prevBlock.GetHash(), devNetName.c_str(), prevBlock.nTime + 1, 0, prevBlock.nBits, reward);
+
+    arith_uint256 bnTarget;
+    bnTarget.SetCompact(block.nBits);
+
+    for (uint32_t nNonce = 0; nNonce < UINT32_MAX; nNonce++) {
+        block.nNonce = nNonce;
+
+        uint256 hash = block.GetHash();
+        if (UintToArith256(hash) <= bnTarget)
+            return block;
+    }
+
+    // This is very unlikely to happen as we start the devnet with a very low difficulty. In many cases even the first
+    // iteration of the above loop will give a result already
+    error("FindDevNetGenesisBlock: could not find devnet genesis block for %s", devNetName);
+    assert(false);
 }
 
 /**
@@ -77,8 +117,6 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
  *    timestamp before)
  * + Contains no strange transactions
  */
-
-const arith_uint256 maxUint = UintToArith256(uint256S("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
 
 
 class CMainParams : public CChainParams {
