@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_DSNOTIFICATIONINTERFACE_H
-#define HILUX_DSNOTIFICATIONINTERFACE_H
+#ifndef BITCOIN_DSNOTIFICATIONINTERFACE_H
+#define BITCOIN_DSNOTIFICATIONINTERFACE_H
 
 #include "validationinterface.h"
 
@@ -21,10 +21,10 @@ protected:
     void AcceptedBlockHeader(const CBlockIndex *pindexNew) override;
     void NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitialDownload) override;
     void UpdatedBlockTip(const CBlockIndex *pindexNew, const CBlockIndex *pindexFork, bool fInitialDownload) override;
-    void SyncTransaction(const CTransaction &tx, const CBlock *pblock) override;
+    void SyncTransaction(const CTransaction &tx, const CBlockIndex *pindex, int posInBlock) override;
 
 private:
     CConnman& connman;
 };
 
-#endif // HILUX_DSNOTIFICATIONINTERFACE_H
+#endif // BITCOIN_DSNOTIFICATIONINTERFACE_H

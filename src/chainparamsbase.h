@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_CHAINPARAMSBASE_H
-#define HILUX_CHAINPARAMSBASE_H
+#ifndef BITCOIN_CHAINPARAMSBASE_H
+#define BITCOIN_CHAINPARAMSBASE_H
 
 #include <string>
 #include <vector>
@@ -18,6 +18,7 @@ public:
     /** BIP70 chain name strings (main, test or regtest) */
     static const std::string MAIN;
     static const std::string TESTNET;
+    static const std::string DEVNET;
     static const std::string REGTEST;
 
     const std::string& DataDir() const { return strDataDir; }
@@ -53,10 +54,12 @@ void SelectBaseParams(const std::string& chain);
  */
 std::string ChainNameFromCommandLine();
 
+std::string GetDevNetName();
+
 /**
  * Return true if SelectBaseParamsFromCommandLine() has been called to select
  * a network.
  */
 bool AreBaseParamsConfigured();
 
-#endif // HILUX_CHAINPARAMSBASE_H
+#endif // BITCOIN_CHAINPARAMSBASE_H
