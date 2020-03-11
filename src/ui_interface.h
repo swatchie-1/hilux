@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef HILUX_UI_INTERFACE_H
-#define HILUX_UI_INTERFACE_H
+#ifndef BITCOIN_UI_INTERFACE_H
+#define BITCOIN_UI_INTERFACE_H
 
 #include <stdint.h>
 #include <string>
@@ -119,6 +119,16 @@ public:
     boost::signals2::signal<void (void)> BannedListChanged;
 };
 
+/** Show warning message **/
+void InitWarning(const std::string& str);
+
+/** Show error message **/
+bool InitError(const std::string& str);
+
+std::string AmountHighWarn(const std::string& optname);
+
+std::string AmountErrMsg(const char* const optname, const std::string& strValue);
+
 extern CClientUIInterface uiInterface;
 
-#endif // HILUX_UI_INTERFACE_H
+#endif // BITCOIN_UI_INTERFACE_H
