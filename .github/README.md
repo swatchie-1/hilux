@@ -1,3 +1,2 @@
-<p align="center"><img src="https://github.com/AXErunners/media/raw/master/axe-logo256.png"/></p>
+<p align="center"><img src="https://github.com/swatchie-1/hilux/blob/hip1/src/qt/res/icons/hilux.png"/></p>
 
-[![Build Status](https://travis-ci.org/AXErunners/axe.svg?branch=master)](https://travis-ci.org/AXErunners/axe)
