@@ -19,7 +19,7 @@ secp256k1_context* secp256k1_context_verify = NULL;
  *
  *  Supported violations include negative integers, excessive padding, garbage
  *  at the end, and overly long length descriptors. This is safe to use in
- *  Hilux because since the activation of BIP66, signatures are verified to be
+ *  Bitcoin because since the activation of BIP66, signatures are verified to be
  *  strict DER before being passed to this module, and we know it supports all
  *  violations present in the blockchain before that point.
  */
@@ -179,7 +179,7 @@ bool CPubKey::Verify(const uint256 &hash, const std::vector<unsigned char>& vchS
         return false;
     }
     /* libsecp256k1's ECDSA verification requires lower-S signatures, which have
-     * not historically been enforced in Hilux, so normalize them first. */
+     * not historically been enforced in Bitcoin, so normalize them first. */
     secp256k1_ecdsa_signature_normalize(secp256k1_context_verify, &sig, &sig);
     return secp256k1_ecdsa_verify(secp256k1_context_verify, &sig, hash.begin(), &pubkey);
 }
@@ -246,7 +246,7 @@ bool CPubKey::Derive(CPubKey& pubkeyChild, ChainCode &ccChild, unsigned int nChi
     return true;
 }
 
-void CExtPubKey::Encode(unsigned char code[74]) const {
+void CExtPubKey::Encode(unsigned char code[BIP32_EXTKEY_SIZE]) const {
     code[0] = nDepth;
     memcpy(code+1, vchFingerprint, 4);
     code[5] = (nChild >> 24) & 0xFF; code[6] = (nChild >> 16) & 0xFF;
@@ -256,20 +256,20 @@ void CExtPubKey::Encode(unsigned char code[74]) const {
     memcpy(code+41, pubkey.begin(), 33);
 }
 
-void CExtPubKey::Decode(const unsigned char code[74]) {
+void CExtPubKey::Decode(const unsigned char code[BIP32_EXTKEY_SIZE]) {
     nDepth = code[0];
     memcpy(vchFingerprint, code+1, 4);
     nChild = (code[5] << 24) | (code[6] << 16) | (code[7] << 8) | code[8];
     memcpy(chaincode.begin(), code+9, 32);
-    pubkey.Set(code+41, code+74);
+    pubkey.Set(code+41, code+BIP32_EXTKEY_SIZE);
 }
 
-bool CExtPubKey::Derive(CExtPubKey &out, unsigned int nChild) const {
+bool CExtPubKey::Derive(CExtPubKey &out, unsigned int _nChild) const {
     out.nDepth = nDepth + 1;
     CKeyID id = pubkey.GetID();
     memcpy(&out.vchFingerprint[0], &id, 4);
-    out.nChild = nChild;
-    return pubkey.Derive(out.pubkey, out.chaincode, nChild, chaincode);
+    out.nChild = _nChild;
+    return pubkey.Derive(out.pubkey, out.chaincode, _nChild, chaincode);
 }
 
 /* static */ bool CPubKey::CheckLowS(const std::vector<unsigned char>& vchSig) {
