@@ -1,4 +1,4 @@
-bitcoin (0.12.3-trusty4) trusty; urgency=medium
+bitcoin (0.14.1-trusty4) trusty; urgency=medium
 
   * Re-enable UPnP support.
 
