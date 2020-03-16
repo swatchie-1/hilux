@@ -3,7 +3,7 @@
 <plist version="0.9">
 <dict>
   <key>LSMinimumSystemVersion</key>
-  <string>10.7.0</string>
+  <string>10.8.0</string>
 
   <key>LSArchitecturePriority</key>
   <array>
@@ -11,13 +11,13 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>hilux.icns</string>
+  <string>bitcoin.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
 
   <key>CFBundleGetInfoString</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@, Copyright © 2009-@COPYRIGHT_YEAR@ The Bitcoin Core developers, 2014-@COPYRIGHT_YEAR@ The Bitcoin Core developers</string>
+  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@.@CLIENT_VERSION_BUILD@, Copyright © 2009-@COPYRIGHT_YEAR@ The Bitcoin Core developers, 2014-@COPYRIGHT_YEAR@ @COPYRIGHT_HOLDERS_FINAL@</string>
 
   <key>CFBundleShortVersionString</key>
   <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@</string>
@@ -30,7 +30,7 @@
 
   <key>CFBundleExecutable</key>
   <string>Hilux-Qt</string>
-  
+
   <key>CFBundleName</key>
   <string>Hilux-Qt</string>
 
@@ -46,7 +46,7 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.hilux.hiluxcryptoment</string>
+      <string>org.hilux.HiluxPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
         <string>hilux</string>
@@ -71,7 +71,7 @@
         <string>application/x-hilux-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>hiluxcryptomentrequest</string>
+          <string>hiluxpaymentrequest</string>
         </array>
       </dict>
     </dict>
@@ -99,7 +99,10 @@
 
   <key>LSAppNapIsDisabled</key>
     <string>True</string>
-  
+
+  <key>NSRequiresAquaSystemAppearance</key>
+    <string>True</string>
+
   <key>LSApplicationCategoryType</key>
     <string>public.app-category.finance</string>
 </dict>
