@@ -173,7 +173,7 @@ Threads
 
 - ThreadMapPort : Universal plug-and-play startup/shutdown
 
-- ThreadSocketHandler : Sends/Receives data from peers on port 9999.
+- ThreadSocketHandler : Sends/Receives data from peers on port 7979.
 
 - ThreadOpenAddedConnections : Opens network connections to added nodes.
 
@@ -188,8 +188,6 @@ Threads
 - ThreadRPCServer : Remote procedure call handler, listens on port 7979 for connections and services them.
 
 - BitcoinMiner : Generates coins (if wallet is enabled).
-
-- ThreadCheckDarkSendPool : Runs masternode list and sync data update loops
 
 - Shutdown : Does an orderly shutdown of everything.
 

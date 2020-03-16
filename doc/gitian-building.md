@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to hilux.org.
+to hiluxrunners.com.
 
 More independent Gitian builders are needed, which is why this guide exists.
 It is preferred you follow these steps yourself instead of using someone else's
@@ -317,7 +317,7 @@ Setting up the Gitian image
 -------------------------
 
 Gitian needs a virtual image of the operating system to build in.
-Currently this is Ubuntu Trusty x86_64.
+Currently this is Ubuntu Bionic x86_64.
 This image will be copied and used every time that a build is started to
 make sure that the build is deterministic.
 Creating the image will take a while, but only has to be done once.
@@ -326,7 +326,7 @@ Execute the following as user `debian`:
 
 ```bash
 cd gitian-builder
-bin/make-base-vm --lxc --arch amd64 --suite trusty
+bin/make-base-vm --lxc --arch amd64 --suite bionic
 ```
 
 There will be a lot of warnings printed during the build of the image. These can be ignored.
@@ -344,7 +344,7 @@ There will be a lot of warnings printed during the build of the image. These can
 Getting and building the inputs
 --------------------------------
 
-At this point you have two options, you can either use the automated script (found in [contrib/gitian-build.sh](/contrib/gitian-build.sh)) or you could manually do everything by following this guide. If you're using the automated script, then run it with the "--setup" command. Afterwards, run it with the "--build" command (example: "contrib/gitian-building.sh -b signer 0.13.0"). Otherwise ignore this.
+At this point you have two options, you can either use the automated script (found in [contrib/gitian-build.py](/contrib/gitian-build.py)) or you could manually do everything by following this guide. If you're using the automated script, then run it with the "--setup" command. Afterwards, run it with the "--build" command (example: "contrib/gitian-building.sh -b signer 1.2.0"). Otherwise ignore this.
 
 Follow the instructions in [doc/release-process.md](release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
 in the Hilux Core repository under 'Fetch and create inputs' to install sources which require
@@ -378,7 +378,7 @@ Output from `gbuild` will look something like
     Resolving deltas: 100% (41590/41590), done.
     From https://github.com/swatchie-1/hilux/
     ... (new tags, new branch etc)
-    --- Building for trusty amd64 ---
+    --- Building for bionic amd64 ---
     Stopping target if it is up
     Making a new image copy
     stdin: is not a tty
@@ -427,14 +427,14 @@ So, if you use LXC:
 export PATH="$PATH":/path/to/gitian-builder/libexec
 export USE_LXC=1
 cd /path/to/gitian-builder
-./libexec/make-clean-vm --suite trusty --arch amd64
+./libexec/make-clean-vm --suite bionic --arch amd64
 
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get update
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root \
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get update
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root \
   -e DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
   $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../hilux/contrib/gitian-descriptors/*|sort|uniq )
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get -q -y purge grub
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get -q -y purge grub
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 ```
 
 And then set offline mode for apt-cacher-ng:

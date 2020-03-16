@@ -109,17 +109,22 @@ if ENABLE_ZMQ:
 
 testScripts = [
     # longest test should go first, to favor running tests in parallel
+    'dip3-deterministicmns.py', # NOTE: needs hilux_hash to pass
     'wallet-hd.py',
     'walletbackup.py',
     # vv Tests less than 5m vv
     'p2p-fullblocktest.py', # NOTE: needs hilux_hash to pass
     'fundrawtransaction.py',
     'fundrawtransaction-hd.py',
+    'p2p-autoinstantsend.py',
+    'autoix-mempool.py',
     # vv Tests less than 2m vv
+    'p2p-instantsend.py',
     'wallet.py',
     'wallet-accounts.py',
     'wallet-dump.py',
     'listtransactions.py',
+    'multikeysporks.py',
     # vv Tests less than 60s vv
     'sendheaders.py', # NOTE: needs hilux_hash to pass
     'zapwallettxes.py',
@@ -148,10 +153,8 @@ testScripts = [
     'timestampindex.py',
     'spentindex.py',
     'decodescript.py',
-    'p2p-fullblocktest.py', # NOTE: needs x16r_hash to pass
     'blockchain.py',
     'disablewallet.py',
-    'sendheaders.py', # NOTE: needs x16r_hash to pass
     'keypool.py',
     'keypool-hd.py',
     'p2p-mempool.py',
@@ -168,6 +171,7 @@ testScripts = [
     'listsinceblock.py',
     'p2p-leaktests.py',
     'p2p-compactblocks.py',
+    'sporks.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
@@ -188,9 +192,8 @@ testScriptsExt = [
     'rpcbind_test.py',
     # vv Tests less than 30s vv
     'bip65-cltv.py',
-    'bip65-cltv-p2p.py', # NOTE: needs x16r_hash to pass
-    'bip68-sequence.py',
-    'bipdersig-p2p.py', # NOTE: needs x16r_hash to pass
+    'bip65-cltv-p2p.py', # NOTE: needs hilux_hash to pass
+    'bipdersig-p2p.py', # NOTE: needs hilux_hash to pass
     'bipdersig.py',
     'getblocktemplate_proposals.py',
     'txn_doublespend.py',
@@ -198,10 +201,7 @@ testScriptsExt = [
     'forknotify.py',
     'invalidateblock.py',
     'maxblocksinflight.py',
-    'p2p-acceptblock.py', # NOTE: needs x16r_hash to pass
-    'mempool_packages.py',
-    'maxuploadtarget.py',
-    # 'replace-by-fee.py', # RBF is disabled in Hilux Core
+    'p2p-acceptblock.py', # NOTE: needs hilux_hash to pass
 ]
 
 
