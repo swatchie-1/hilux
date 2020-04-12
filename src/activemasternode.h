@@ -42,7 +42,7 @@ private:
 
     //  sentinel ping data
     int64_t sentinelPing;
-    int sentinelVersion;
+    uint16_t sentinelVersion;
 
 public:
     // Keys for the active Masternode
