@@ -59,6 +59,8 @@ public:
         READWRITE(blockHash);
         READWRITE(sigTime);
         READWRITE(vchSig);
+        if(ser_action.ForRead() && (s.size() == 0))
+            return;
         READWRITE(sentinelIsActual);
         READWRITE(sentinelVersion);
         if(ser_action.ForRead() && (s.size() == 0))
@@ -296,7 +298,7 @@ CTxIn vin;
 
     void RemoveGovernanceObject(uint256 nGovernanceObjectHash);
 
-    void UpdateWatchdogVoteTime(uint64_t nVoteTime = 0);
+    void UpdateWatchdogVoteTime(uint64_t t = 0);
 
     CMasternode& operator=(CMasternode const& from)
     {
