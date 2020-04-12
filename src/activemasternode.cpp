@@ -117,14 +117,45 @@ bool CActiveMasternode::SendMasternodePing(CConnman& connman)
     return true;
 }
 
-bool CActiveMasternode::UpdateSentinelPing(int version)
+bool CActiveMasternode::SendSentinelPing(int version)
 {
-    nSentinelVersion = version;
-    nSentinelPingTime = GetAdjustedTime();
+    if(!fPingerEnabled) {
+        LogPrint("masternode", "CActiveMasternode::SendMasternodePing -- %s: masternode ping service is disabled, skipping...\n", GetStateString());
+        return false;
+    }
+
+    if(!mnodeman.Has(vin)) {
+        
+   strNotCapableReason = "Masternode not in masternode list";
+        nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
+        LogPrintf("CActiveMasternode::SendMasternodePing -- %s: %s\n", GetStateString(), strNotCapableReason);
+        return false;
+    }
+
+    CMasternodePing mnp(vin);
+    mnp.sentinelVersion = version;
+    mnp.sentinelPing = GetTime();
+    if(!mnp.Sign(keyMasternode, pubKeyMasternode)) {
+        LogPrintf("CActiveMasternode::SendMasternodePing -- ERROR: Couldn't sign Masternode Ping\n");
+        return false;
+    }
+
+    // Update lastPing for our masternode in Masternode list
+    if(mnodeman.IsMasternodePingedWithin(vin, MASTERNODE_MIN_MNP_SECONDS, mnp.sigTime)) {
+        LogPrintf("CActiveMasternode::SendMasternodePing -- Too early to send Masternode Ping\n");
+        return false;
+    }
+
+    mnodeman.SetMasternodeLastPing(vin, mnp);
+
+    LogPrintf("CActiveMasternode::SendMasternodePing -- Relaying ping, collateral=%s\n", vin.ToString());
+    mnp.Relay();
 
     return true;
 }
-
+     
+        
+        
 void CActiveMasternode::ManageStateInitial(CConnman& connman)
 {
     LogPrint("masternode", "CActiveMasternode::ManageStateInitial -- status = %s, type = %s, pinger enabled = %d\n", GetStatus(), GetTypeString(), fPingerEnabled);
