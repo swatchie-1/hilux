@@ -837,15 +837,20 @@ UniValue sentinelping(const UniValue& params, bool fHelp)
             "sentinelping version\n"
             "\nSentinel ping.\n"
             "\nArguments:\n"
-            "1. version           (string, required) Sentinel version in the form \"x.x.x\"\n"
+            "1. version           (numeric, required) Sentinel version\n"
             "\nResult:\n"
             "state                (boolean) Ping result\n"
             "\nExamples:\n"
-            + HelpExampleCli("sentinelping", "1.0.2")
-            + HelpExampleRpc("sentinelping", "1.0.2")
+            + HelpExampleCli("sentinelping", "2")
+            + HelpExampleRpc("sentinelping", "2")
         );
     }
 
-    activeMasternode.UpdateSentinelPing(StringVersionToInt(params[0].get_str()));
+    if(activeMasternode.nState == ACTIVE_MASTERNODE_INITIAL ||
+            masternodeSync.IsBlockchainSynced())
+        return false;
+
+
+    activeMasternode.SendSentinelPing(params[1].get_int());
     return true;
 }
