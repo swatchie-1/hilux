@@ -1528,6 +1528,9 @@ void CMasternodeMan::SetMasternodeLastPing(const COutPoint& outpoint, const CMas
     // if masternode uses sentinel ping instead of watchdog
     // we shoud update nTimeLastWatchdogVote here if sentinel
     // ping flag is actual
+    if(mnp.sentinelPing)
+        pMN->UpdateWatchdogVoteTime();
+    
     if(mnp.fSentinelIsCurrent) {
         UpdateWatchdogVoteTime(mnp.vin.prevout, mnp.sigTime);
     }
