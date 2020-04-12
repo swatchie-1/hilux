@@ -665,8 +665,8 @@ void CMasternodeBroadcast::Relay(CConnman& connman)
 }
 
 CMasternodePing::CMasternodePing(CTxIn& vinNew) :
-    sentinelIsActual(false),
-    sentinelVersion(0)
+    fSentinelIsCurrent(false),
+    nSentinelVersion(0)
 {
     LOCK(cs_main);
     if (!chainActive.Tip() || chainActive.Height() < 12) return;
@@ -850,13 +850,11 @@ void CMasternode::RemoveGovernanceObject(uint256 nGovernanceObjectHash)
     mapGovernanceObjectsVotedOn.erase(it);
 }
 
-void CMasternode::UpdateWatchdogVoteTime(uint64_t t)
+void CMasternode::UpdateWatchdogVoteTime(uint64_t nVoteTime)
 {
     LOCK(cs);
     if(t == 0)
-    nTimeLastWatchdogVote = GetTime();
-    else
-        nTimeLastWatchdogVote = t;
+ nTimeLastWatchdogVote = (nVoteTime == 0) ? GetTime() : nVoteTime;
 }
 
 /**
