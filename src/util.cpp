@@ -975,12 +975,40 @@ uint32_t StringVersionToInt(const std::string& strVersion)
     return nVersion;
 }
 
-std::string IntVersionToString(uint32_t nVersion)
+VersionInfo::VersionInfo(uint32_t version)
 {
-    if((nVersion >> 24) > 0) // MSB is always 0
-        throw std::bad_cast();
-    if(nVersion == 0)
-        throw std::bad_cast();
+    if((version >> 24) > 0)
+        throw std::runtime_error("Invalid version format");
+    if(version == 0)
+        throw std::runtime_error("Invalid version format");
+    nVersion = version;
+}
+
+VersionInfo::VersionInfo(const std::string& versionInfo)
+{
+    std::vector<std::string> tokens;
+    boost::split(tokens, versionInfo, boost::is_any_of("."));
+    if(tokens.size() != 3)
+        throw std::runtime_error("Invalid version format");
+    uint32_t version = 0;
+    for(unsigned idx = 0; idx < 3; idx++)
+    {
+        if(tokens[idx].length() == 0)
+            throw std::runtime_error("Invalid version format");
+        if(!std::none_of(tokens[idx].begin(), tokens[idx].end(),
+           [](char c){return !std::isdigit(c);}))
+            throw std::runtime_error("Invalid version format");
+        uint32_t value = atol(tokens[idx].c_str());
+        if(value > 255)
+            throw std::runtime_error("Invalid version format");
+        version <<= 8;
+        version |= value;
+    }
+    nVersion = version;
+}
+
+VersionInfo::operator std::string() const
+{
     std::array<std::string, 3> tokens;
     for(unsigned idx = 0; idx < 3; idx++)
     {
@@ -991,15 +1019,7 @@ std::string IntVersionToString(uint32_t nVersion)
     return boost::join(tokens, ".");
 }
 
-std::string SafeIntVersionToString(uint32_t nVersion)
+VersionInfo::operator uint32_t() const
 {
-    try
-    {
-        return IntVersionToString(nVersion);
-    }
-    catch(const std::bad_cast&)
-    {
-        return "invalid_version";
-    }
+    return nVersion;
 }
-
