@@ -41,8 +41,8 @@ private:
     bool SendMasternodePing(CConnman& connman);
 
     //  sentinel ping data
-    int64_t nSentinelPingTime;
-    uint32_t nSentinelVersion;
+    int64_t sentinelPing;
+    int sentinelVersion;
 
 public:
     // Keys for the active Masternode
@@ -74,7 +74,7 @@ public:
     std::string GetStatus() const;
     std::string GetTypeString() const;
 
-  bool SendSentinelPing(int version);
+  bool UpdateSentinelPing(int version);
 
 
 private:
