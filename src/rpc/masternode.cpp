@@ -846,6 +846,6 @@ UniValue sentinelping(const UniValue& params, bool fHelp)
         );
     }
 
-activeMasternode.UpdateSentinelPing(VersionInfo(params[0].get_str()));
+activeMasternode.UpdateSentinelPing(StringVersionToInt(params[0].get_str()));
     return true;
 }
