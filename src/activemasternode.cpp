@@ -116,16 +116,7 @@ bool CActiveMasternode::SendMasternodePing(CConnman& connman)
 }
 
 bool CActiveMasternode::UpdateSentinelPing(int version)
-{
-    if(!mnodeman.Has(vin)) {
-        
-   strNotCapableReason = "Masternode  not in masternode list";
-        nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
-        LogPrintf("CActiveMasternode::UpdateSentinelPing -- %s: %s\n", GetStateString(), strNotCapableReason);
-        return false;
-    }
 
-    CMasternodePing mnp(vin);
     sentinelVersion = version;
     sentinelPing = GetAdjustedTime();
 
