@@ -32,17 +32,24 @@ static const int MASTERNODE_POSE_BAN_MAX_SCORE          = 5;
 class CMasternodePing
 {
 public:
-    CTxIn vin{};
-    uint256 blockHash{};
-    int64_t sigTime{}; //mnb message times
-    std::vector<unsigned char> vchSig{};
-    bool fSentinelIsCurrent = false; // true if last sentinel ping was actual
-    // MSB is always 0, other 3 bits corresponds to x.x.x version scheme
-    uint32_t nSentinelVersion{DEFAULT_SENTINEL_VERSION};
+    CTxIn vin;
+    uint256 blockHash;
+    int64_t sigTime; //mnb message times
+    std::vector<unsigned char> vchSig;
+    int64_t sentinelPing; // last sentinel ping time
+    uint32_t sentinelVersion;
+    //removed stop
 
-    CMasternodePing() = default;
+    CMasternodePing() :
+        vin(),
+        blockHash(),
+        sigTime(0),
+        vchSig(),
+        sentinelPing(0),
+        sentinelVersion(0)
+        {}
 
-    CMasternodePing(const COutPoint& outpoint);
+    CMasternodePing(CTxIn& vinNew);
 
     ADD_SERIALIZE_METHODS;
 
@@ -52,14 +59,23 @@ public:
         READWRITE(blockHash);
         READWRITE(sigTime);
         READWRITE(vchSig);
+        READWRITE(sentinelPing);
+        READWRITE(sentinelVersion);
         if(ser_action.ForRead() && (s.size() == 0))
-        {
-            fSentinelIsCurrent = false;
-            nSentinelVersion = DEFAULT_SENTINEL_VERSION;
-            return;
         }
-        READWRITE(fSentinelIsCurrent);
-        READWRITE(nSentinelVersion);
+    
+    void swap(CMasternodePing& first, CMasternodePing& second) // nothrow
+    {
+        // enable ADL (not necessary in our case, but good practice)
+        using std::swap;
+        // by swapping the members of two classes,
+        // the two classes are effectively swapped
+        swap(first.vin, second.vin);
+        swap(first.blockHash, second.blockHash);
+        swap(first.sigTime, second.sigTime);
+        swap(first.vchSig, second.vchSig);
+        swap(first.sentinelPing, second.sentinelPing);
+        swap(first.sentinelVersion, second.sentinelVersion);
     }
 
     uint256 GetHash() const
