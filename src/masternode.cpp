@@ -669,9 +669,11 @@ CMasternodePing::CMasternodePing(const COutPoint& outpoint)
     LOCK(cs_main);
     if (!chainActive.Tip() || chainActive.Height() < 12) return;
 
-    vin = CTxIn(outpoint);
+    vin = vinNew;
     blockHash = chainActive[chainActive.Height() - 12]->GetBlockHash();
     sigTime = GetAdjustedTime();
+    vchSig = std::vector<unsigned char>();
+    sentinelPing = 0;
 }
 
 bool CMasternodePing::Sign(const CKey& keyMasternode, const CPubKey& pubKeyMasternode)
