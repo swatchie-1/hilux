@@ -36,7 +36,7 @@ public:
     uint256 blockHash;
     int64_t sigTime; //mnb message times
     std::vector<unsigned char> vchSig;
-    int64_t sentinelPing; // last sentinel ping time
+    uint8_t sentinelPing; // flag 0:1 showing if last sentinel ping was actual
     uint32_t sentinelVersion;
     //removed stop
 
@@ -161,23 +161,26 @@ public:
         MASTERNODE_NEW_START_REQUIRED,
         MASTERNODE_POSE_BAN
     };
-
-    enum CollateralStatus {
-        COLLATERAL_OK,
-        COLLATERAL_UTXO_NOT_FOUND,
-        COLLATERAL_INVALID_AMOUNT
-    };
-
-
-    CMasternodePing lastPing{};
-    std::vector<unsigned char> vchSig{};
-
-    uint256 nCollateralMinConfBlockHash{};
-    int nBlockLastPaid{};
-    int nPoSeBanScore{};
-    int nPoSeBanHeight{};
-    bool fAllowMixingTx{};
-    bool fUnitTest = false;
+CTxIn vin;
+    CService addr;
+    CPubKey pubKeyCollateralAddress;
+    CPubKey pubKeyMasternode;
+    CMasternodePing lastPing;
+    std::vector<unsigned char> vchSig;
+    int64_t sigTime; //mnb message time
+    int64_t nLastDsq; //the dsq count from the last dsq broadcast of this node
+    int64_t nTimeLastChecked;
+    int64_t nTimeLastPaid;
+    int64_t nTimeLastWatchdogVote;
+    int64_t nTimeLastSentinelPing;
+    int nActiveState;
+    int nCacheCollateralBlock;
+    int nBlockLastPaid;
+    int nProtocolVersion;
+    int nPoSeBanScore;
+    int nPoSeBanHeight;
+    bool fAllowMixingTx;
+    bool fUnitTest;
 
     // KEEP TRACK OF GOVERNANCE ITEMS EACH MASTERNODE HAS VOTE UPON FOR RECALCULATION
     std::map<uint256, int> mapGovernanceObjectsVotedOn;
@@ -203,6 +206,7 @@ public:
         READWRITE(nTimeLastChecked);
         READWRITE(nTimeLastPaid);
         READWRITE(nTimeLastWatchdogVote);
+        READWRITE(nTimeLastSentinelPing);
         READWRITE(nActiveState);
         READWRITE(nCollateralMinConfBlockHash);
         READWRITE(nBlockLastPaid);
