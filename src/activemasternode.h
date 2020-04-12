@@ -74,7 +74,8 @@ public:
     std::string GetStatus() const;
     std::string GetTypeString() const;
 
-    bool UpdateSentinelPing(int version);
+  bool SendSentinelPing(int version);
+
 
 private:
     void ManageStateInitial(CConnman& connman);
