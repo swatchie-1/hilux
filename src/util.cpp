@@ -118,7 +118,7 @@ bool fLiteMode = false;
 int nWalletBackups = 10;
 
 const char * const HILUX_CONF_FILENAME = "hilux.conf";
-const char * const HILUX_PID_FILENAME = "hilux.pid";
+const char * const HILUX_PID_FILENAME = "hiluxd.pid";
 
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
@@ -272,7 +272,7 @@ bool LogAcceptCategory(const char* category)
             const vector<string>& categories = mapMultiArgs["-debug"];
             ptrCategory.reset(new set<string>(categories.begin(), categories.end()));
             // thread_specific_ptr automatically deletes the set when the thread ends.
-            // "hilux" is a composite category enabling all hilux-related debug output
+            // "hilux" is a composite category enabling all Hilux-related debug output
             if(ptrCategory->count(string("hilux"))) {
                 ptrCategory->insert(string("privatesend"));
                 ptrCategory->insert(string("instantsend"));
@@ -517,7 +517,7 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Hilux Core
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\HiluxCore
     // Windows >= Vista: C:\Users\Username\AppData\Roaming\HiluxCore
     // Mac: ~/Library/Application Support/HiluxCore
     // Unix: ~/.hiluxcore
@@ -533,7 +533,7 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/Hilux Core";
+    return pathRet / "Library/Application Support/HiluxCore";
 #else
     // Unix
     return pathRet / ".hiluxcore";

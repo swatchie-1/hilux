@@ -45,7 +45,7 @@
 #define DBG( x )
 #endif
 
-// Hilux only features
+//Hilux only features
 
 extern bool fMasterNode;
 extern bool fLiteMode;
