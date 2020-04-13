@@ -32,24 +32,17 @@ static const int MASTERNODE_POSE_BAN_MAX_SCORE          = 5;
 class CMasternodePing
 {
 public:
-    CTxIn vin;
-    uint256 blockHash;
-    int64_t sigTime; //mnb message times
-    std::vector<unsigned char> vchSig;
-    bool fSentinelIsCurrent; // true if last sentinel ping was actual
-    uint32_t nSentinelVersion; // MSB is always 0, other 3 bits corresponds to x.x.x version scheme
-    //removed stop
+    CTxIn vin{};
+    uint256 blockHash{};
+    int64_t sigTime{}; //mnb message times
+    std::vector<unsigned char> vchSig{};
+    bool fSentinelIsCurrent = false; // true if last sentinel ping was actual
+    // MSB is always 0, other 3 bits corresponds to x.x.x version scheme
+    uint32_t nSentinelVersion{DEFAULT_SENTINEL_VERSION};
 
-    CMasternodePing() :
-        vin(),
-        blockHash(),
-        sigTime(0),
-        vchSig(),
-        fSentinelIsCurrent(false),
-        nSentinelVersion(0)
-        {}
+    CMasternodePing() = default;
 
-    CMasternodePing(CTxIn& vinNew);
+    CMasternodePing(const COutPoint& outpoint);
 
     ADD_SERIALIZE_METHODS;
 
@@ -60,23 +53,13 @@ public:
         READWRITE(sigTime);
         READWRITE(vchSig);
         if(ser_action.ForRead() && (s.size() == 0))
+        {
+            fSentinelIsCurrent = false;
+            nSentinelVersion = DEFAULT_SENTINEL_VERSION;
             return;
+        }
         READWRITE(fSentinelIsCurrent);
         READWRITE(nSentinelVersion);
-        }
-    
-    void swap(CMasternodePing& first, CMasternodePing& second) // nothrow
-    {
-        // enable ADL (not necessary in our case, but good practice)
-        using std::swap;
-        // by swapping the members of two classes,
-        // the two classes are effectively swapped
-        swap(first.vin, second.vin);
-        swap(first.blockHash, second.blockHash);
-        swap(first.sigTime, second.sigTime);
-        swap(first.vchSig, second.vchSig);
-        swap(first.fSentinelIsCurrent, second.fSentinelIsCurrent);
-        swap(first.nSentinelVersion, second.nSentinelVersion);
     }
 
     uint256 GetHash() const
@@ -142,7 +125,7 @@ struct masternode_info_t
 };
 
 //
-// The Masternode Class. For managing the Darksend process. It contains the input of the 1000DRK, signature to prove
+// The Masternode Class. For managing the Darksend process. It contains the input of the 1 500 MBGL, signature to prove
 // it's the one who own that ip address and code for calculating the payment election.
 //
 class CMasternode : public masternode_info_t
@@ -162,25 +145,23 @@ public:
         MASTERNODE_NEW_START_REQUIRED,
         MASTERNODE_POSE_BAN
     };
-CTxIn vin;
-    CService addr;
-    CPubKey pubKeyCollateralAddress;
-    CPubKey pubKeyMasternode;
-    CMasternodePing lastPing;
-    std::vector<unsigned char> vchSig;
-    int64_t sigTime; //mnb message time
-    int64_t nLastDsq; //the dsq count from the last dsq broadcast of this node
-    int64_t nTimeLastChecked;
-    int64_t nTimeLastPaid;
-    int64_t nTimeLastWatchdogVote;
-    int nActiveState;
-    int nCacheCollateralBlock;
-    int nBlockLastPaid;
-    int nProtocolVersion;
-    int nPoSeBanScore;
-    int nPoSeBanHeight;
-    bool fAllowMixingTx;
-    bool fUnitTest;
+
+    enum CollateralStatus {
+        COLLATERAL_OK,
+        COLLATERAL_UTXO_NOT_FOUND,
+        COLLATERAL_INVALID_AMOUNT
+    };
+
+
+    CMasternodePing lastPing{};
+    std::vector<unsigned char> vchSig{};
+
+    uint256 nCollateralMinConfBlockHash{};
+    int nBlockLastPaid{};
+    int nPoSeBanScore{};
+    int nPoSeBanHeight{};
+    bool fAllowMixingTx{};
+    bool fUnitTest = false;
 
     // KEEP TRACK OF GOVERNANCE ITEMS EACH MASTERNODE HAS VOTE UPON FOR RECALCULATION
     std::map<uint256, int> mapGovernanceObjectsVotedOn;
@@ -270,7 +251,7 @@ CTxIn vin;
         return false;
     }
 
-    /// Is the input associated with collateral public key? (and there is 1000 HILUX - checking if valid masternode)
+    /// Is the input associated with collateral public key? (and there is 1 500 MBGL - checking if valid masternode)
     bool IsInputAssociatedWithPubkey();
 
     bool IsValidNetAddr();

@@ -13,5 +13,4 @@ UniValue RPCConvertValues(const std::string& strMethod, const std::vector<std::s
  * as well as objects and arrays.
  */
 UniValue ParseNonRFCJSONValue(const std::string& strVal);
-
 #endif // HILUX_RPCCLIENT_H

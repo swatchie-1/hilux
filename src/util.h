@@ -14,6 +14,10 @@
 #if defined(HAVE_CONFIG_H)
 #include "config/hilux-config.h"
 #endif
+#if _MSC_VER
+#include "unistd_win.h"
+#endif
+
 
 #include "compat.h"
 #include "tinyformat.h"
@@ -38,10 +42,10 @@
 #ifdef ENABLE_HILUX_DEBUG
 #define DBG( x ) x
 #else
-#define DBG( x ) 
+#define DBG( x )
 #endif
 
-//Hilux only features
+// Hilux only features
 
 extern bool fMasterNode;
 extern bool fLiteMode;
@@ -271,6 +275,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
     }
 }
 
+
 /**
  * @brief Converts version strings to 4-byte unsigned integer
  * @param strVersion version in "x.x.x" format (decimal digits only)
@@ -279,6 +284,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
  */
 uint32_t StringVersionToInt(const std::string& strVersion);
 
+
 /**
  * @brief Converts version as 4-byte unsigned integer to string
  * @param nVersion 4-byte unsigned integer, most significant byte is always 0
@@ -286,5 +292,16 @@ uint32_t StringVersionToInt(const std::string& strVersion);
  * Throws std::bad_cast if format doesn\t match.
  */
 std::string IntVersionToString(uint32_t nVersion);
+
+
+/**
+ * @brief Copy of the IntVersionToString, that returns "Invalid version" string
+ * instead of throwing std::bad_cast
+ * @param nVersion 4-byte unsigned integer, most significant byte is always 0
+ * @return version string in "x.x.x" format (last 3 bytes as version parts)
+ * or "Invalid version" if can't cast the given value
+ */
+std::string SafeIntVersionToString(uint32_t nVersion);
+
 
 #endif // HILUX_UTIL_H

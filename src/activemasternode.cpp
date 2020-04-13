@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014-2017 The Hilux Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -88,12 +88,13 @@ bool CActiveMasternode::SendMasternodePing(CConnman& connman)
     }
 
     if(!mnodeman.Has(outpoint)) {
+        strNotCapableReason = "Masternode not in masternode list";
         nState = ACTIVE_MASTERNODE_NOT_CAPABLE;
         LogPrintf("CActiveMasternode::SendMasternodePing -- %s: %s\n", GetStateString(), strNotCapableReason);
         return false;
     }
 
-    CMasternodePing mnp(vin);
+    CMasternodePing mnp(outpoint);
     mnp.nSentinelVersion = nSentinelVersion;
     mnp.fSentinelIsCurrent =
             (abs(GetAdjustedTime() - nSentinelPingTime) < MASTERNODE_WATCHDOG_MAX_SECONDS);
@@ -101,6 +102,7 @@ bool CActiveMasternode::SendMasternodePing(CConnman& connman)
         LogPrintf("CActiveMasternode::SendMasternodePing -- ERROR: Couldn't sign Masternode Ping\n");
         return false;
     }
+
     // Update lastPing for our masternode in Masternode list
     if(mnodeman.IsMasternodePingedWithin(outpoint, MASTERNODE_MIN_MNP_SECONDS, mnp.sigTime)) {
         LogPrintf("CActiveMasternode::SendMasternodePing -- Too early to send Masternode Ping\n");
@@ -116,15 +118,13 @@ bool CActiveMasternode::SendMasternodePing(CConnman& connman)
 }
 
 bool CActiveMasternode::UpdateSentinelPing(int version)
-
+{
     nSentinelVersion = version;
     nSentinelPingTime = GetAdjustedTime();
 
     return true;
 }
-     
-        
-        
+
 void CActiveMasternode::ManageStateInitial(CConnman& connman)
 {
     LogPrint("masternode", "CActiveMasternode::ManageStateInitial -- status = %s, type = %s, pinger enabled = %d\n", GetStatus(), GetTypeString(), fPingerEnabled);
@@ -197,7 +197,7 @@ void CActiveMasternode::ManageStateInitial(CConnman& connman)
 
 void CActiveMasternode::ManageStateRemote()
 {
-    LogPrint("masternode", "CActiveMasternode::ManageStateRemote -- Start status = %s, type = %s, pinger enabled = %d, pubKeyMasternode.GetID() = %s\n", 
+    LogPrint("masternode", "CActiveMasternode::ManageStateRemote -- Start status = %s, type = %s, pinger enabled = %d, pubKeyMasternode.GetID() = %s\n",
              GetStatus(), GetTypeString(), fPingerEnabled, pubKeyMasternode.GetID().ToString());
 
     mnodeman.CheckMasternode(pubKeyMasternode, true);

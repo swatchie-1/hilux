@@ -387,14 +387,12 @@ int CMasternodeMan::CountByIP(int nNetworkType)
 {
     LOCK(cs);
     int nNodeCount = 0;
-
     for (auto& mnpair : mapMasternodes)
         if ((nNetworkType == NET_IPV4 && mnpair.second.addr.IsIPv4()) ||
             (nNetworkType == NET_TOR  && mnpair.second.addr.IsTor())  ||
             (nNetworkType == NET_IPV6 && mnpair.second.addr.IsIPv6())) {
                 nNodeCount++;
         }
-
     return nNodeCount;
 }
 */
@@ -793,7 +791,7 @@ void CMasternodeMan::ProcessMessage(CNode* pfrom, std::string& strCommand, CData
         // we shoud update nTimeLastWatchdogVote here if sentinel
         // ping flag is actual
         if(pmn && mnp.fSentinelIsCurrent)
-            pmn->UpdateWatchdogVoteTime(mnp.sigTime);
+            UpdateWatchdogVoteTime(mnp.vin.prevout, mnp.sigTime);
 
         // too late, new MNANNOUNCE is required
         if(pmn && pmn->IsNewStartRequired()) return;
@@ -1528,8 +1526,9 @@ void CMasternodeMan::SetMasternodeLastPing(const COutPoint& outpoint, const CMas
     // if masternode uses sentinel ping instead of watchdog
     // we shoud update nTimeLastWatchdogVote here if sentinel
     // ping flag is actual
-    if(mnp.fSentinelIsCurrent)
-        pMN->UpdateWatchdogVoteTime(mnp.sigTime);
+    if(mnp.fSentinelIsCurrent) {
+        UpdateWatchdogVoteTime(mnp.vin.prevout, mnp.sigTime);
+    }
     mapSeenMasternodePing.insert(std::make_pair(mnp.GetHash(), mnp));
 
     CMasternodeBroadcast mnb(*pmn);

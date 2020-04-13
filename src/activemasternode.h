@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014-2017 The Hilux Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -74,8 +74,7 @@ public:
     std::string GetStatus() const;
     std::string GetTypeString() const;
 
-  bool UpdateSentinelPing(int version);
-
+    bool UpdateSentinelPing(int version);
 
 private:
     void ManageStateInitial(CConnman& connman);

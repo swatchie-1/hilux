@@ -116,7 +116,7 @@ CMasternode::CollateralStatus CMasternode::CheckCollateral(const COutPoint& outp
         return COLLATERAL_UTXO_NOT_FOUND;
     }
 
-    if(coin.out.nValue != 1000 * COIN) {
+    if(coin.out.nValue != MASTERNODE_ENABLED) {
         return COLLATERAL_INVALID_AMOUNT;
     }
 
@@ -213,11 +213,14 @@ void CMasternode::Check(bool fForce)
                 vin.prevout.ToStringShort(), nTimeLastWatchdogVote, GetAdjustedTime(), fWatchdogExpired);
 
         if(fWatchdogExpired) {
-            nActiveState = MASTERNODE_WATCHDOG_EXPIRED;
-            if(nActiveStatePrev != nActiveState) {
-                LogPrint("masternode", "CMasternode::Check -- Masternode %s is in %s state now\n", vin.prevout.ToStringShort(), GetStateString());
-            }
-            return;
+			if (!activeMasternode.UpdateSentinelPing(DEFAULT_SENTINEL_VERSION))
+			{
+				nActiveState = MASTERNODE_WATCHDOG_EXPIRED;
+				if (nActiveStatePrev != nActiveState) {
+					LogPrint("masternode", "CMasternode::Check -- Masternode %s is in %s state now\n", vin.prevout.ToStringShort(), GetStateString());
+				}
+				return;
+			}
         }
 
         if(!IsPingedWithin(MASTERNODE_EXPIRATION_SECONDS)) {
@@ -252,7 +255,7 @@ bool CMasternode::IsInputAssociatedWithPubkey()
     uint256 hash;
     if(GetTransaction(vin.prevout.hash, tx, Params().GetConsensus(), hash, true)) {
         BOOST_FOREACH(CTxOut out, tx.vout)
-            if(out.nValue == 1000*COIN && out.scriptPubKey == payee) return true;
+            if(out.nValue == MASTERNODE_ENABLED && out.scriptPubKey == payee) return true;
     }
 
     return false;
@@ -560,7 +563,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
         }
 
         if (err == COLLATERAL_INVALID_AMOUNT) {
-            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have 1000 HILUX, masternode=%s\n", vin.prevout.ToStringShort());
+            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have 1 500 MBGL, masternode=%s\n", vin.prevout.ToStringShort());
             return false;
         }
 
@@ -586,7 +589,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
     }
 
     // verify that sig time is legit in past
-    // should be at least not earlier than block when 1000 HILUX tx got nMasternodeMinimumConfirmations
+    // should be at least not earlier than block when 1 500 MBGL tx got nMasternodeMinimumConfirmations
     uint256 hashBlock = uint256();
     CTransaction tx2;
     GetTransaction(vin.prevout.hash, tx2, Params().GetConsensus(), hashBlock, true);
@@ -594,7 +597,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
         LOCK(cs_main);
         BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
         if (mi != mapBlockIndex.end() && (*mi).second) {
-            CBlockIndex* pMNIndex = (*mi).second; // block for 1000 HILUX tx -> 1 confirmation
+            CBlockIndex* pMNIndex = (*mi).second; // block for 1 500 MBGL tx -> 1 confirmation
             CBlockIndex* pConfIndex = chainActive[pMNIndex->nHeight + Params().GetConsensus().nMasternodeMinimumConfirmations - 1]; // block where tx got nMasternodeMinimumConfirmations
             if(pConfIndex->GetBlockTime() > sigTime) {
                 LogPrintf("CMasternodeBroadcast::CheckOutpoint -- Bad sigTime %d (%d conf block is at %d) for Masternode %s %s\n",
@@ -664,17 +667,14 @@ void CMasternodeBroadcast::Relay(CConnman& connman)
     connman.RelayInv(inv);
 }
 
-CMasternodePing::CMasternodePing(CTxIn& vinNew) :
-    fSentinelIsCurrent(false),
-    nSentinelVersion(0)
+CMasternodePing::CMasternodePing(const COutPoint& outpoint)
 {
     LOCK(cs_main);
     if (!chainActive.Tip() || chainActive.Height() < 12) return;
 
-    vin = vinNew;
+    vin = CTxIn(outpoint);
     blockHash = chainActive[chainActive.Height() - 12]->GetBlockHash();
     sigTime = GetAdjustedTime();
-    vchSig = std::vector<unsigned char>();
 }
 
 bool CMasternodePing::Sign(const CKey& keyMasternode, const CPubKey& pubKeyMasternode)
@@ -853,8 +853,7 @@ void CMasternode::RemoveGovernanceObject(uint256 nGovernanceObjectHash)
 void CMasternode::UpdateWatchdogVoteTime(uint64_t nVoteTime)
 {
     LOCK(cs);
-    if(t == 0)
- nTimeLastWatchdogVote = (nVoteTime == 0) ? GetTime() : nVoteTime;
+    nTimeLastWatchdogVote = (nVoteTime == 0) ? GetAdjustedTime() : nVoteTime;
 }
 
 /**

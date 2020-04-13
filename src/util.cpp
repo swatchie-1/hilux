@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2017 The Hilux Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -117,7 +118,7 @@ bool fLiteMode = false;
 int nWalletBackups = 10;
 
 const char * const HILUX_CONF_FILENAME = "hilux.conf";
-const char * const HILUX_PID_FILENAME = "hiluxd.pid";
+const char * const HILUX_PID_FILENAME = "hilux.pid";
 
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
@@ -271,7 +272,7 @@ bool LogAcceptCategory(const char* category)
             const vector<string>& categories = mapMultiArgs["-debug"];
             ptrCategory.reset(new set<string>(categories.begin(), categories.end()));
             // thread_specific_ptr automatically deletes the set when the thread ends.
-            // "hilux" is a composite category enabling all Hilux-related debug output
+            // "hilux" is a composite category enabling all hilux-related debug output
             if(ptrCategory->count(string("hilux"))) {
                 ptrCategory->insert(string("privatesend"));
                 ptrCategory->insert(string("instantsend"));
@@ -516,13 +517,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\HiluxCore
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Hilux Core
     // Windows >= Vista: C:\Users\Username\AppData\Roaming\HiluxCore
     // Mac: ~/Library/Application Support/HiluxCore
     // Unix: ~/.hiluxcore
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "HiluxCore";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Hilux Core";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -532,7 +533,7 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/HiluxCore";
+    return pathRet / "Library/Application Support/Hilux Core";
 #else
     // Unix
     return pathRet / ".hiluxcore";
@@ -975,27 +976,6 @@ uint32_t StringVersionToInt(const std::string& strVersion)
     return nVersion;
 }
 
-VersionInfo::VersionInfo(uint32_t version)
-uint32_t StringVersionToInt(const std::string& strVersion)
-{
-    std::vector<std::string> tokens;
-    boost::split(tokens, strVersion, boost::is_any_of("."));
-    if(tokens.size() != 3)
-        throw std::bad_cast();
-    uint32_t nVersion = 0;
-    for(unsigned idx = 0; idx < 3; idx++)
-    {
-        if(tokens[idx].length() == 0)
-             throw std::bad_cast();
-        uint32_t value = boost::lexical_cast<uint32_t>(tokens[idx]);
-        if(value > 255)
-            throw std::bad_cast();
-        nVersion <<= 8;
-        nVersion |= value;
-    }
-    return nVersion;
-}
-
 std::string IntVersionToString(uint32_t nVersion)
 {
     if((nVersion >> 24) > 0) // MSB is always 0
@@ -1010,4 +990,16 @@ std::string IntVersionToString(uint32_t nVersion)
         tokens[idx] = boost::lexical_cast<std::string>(byteValue);
     }
     return boost::join(tokens, ".");
+}
+
+std::string SafeIntVersionToString(uint32_t nVersion)
+{
+    try
+    {
+        return IntVersionToString(nVersion);
+    }
+    catch(const std::bad_cast&)
+    {
+        return "invalid_version";
+    }
 }
