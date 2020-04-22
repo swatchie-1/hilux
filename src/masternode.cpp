@@ -213,11 +213,14 @@ void CMasternode::Check(bool fForce)
                 vin.prevout.ToStringShort(), nTimeLastWatchdogVote, GetAdjustedTime(), fWatchdogExpired);
 
         if(fWatchdogExpired) {
-            nActiveState = MASTERNODE_WATCHDOG_EXPIRED;
-            if(nActiveStatePrev != nActiveState) {
-                LogPrint("masternode", "CMasternode::Check -- Masternode %s is in %s state now\n", vin.prevout.ToStringShort(), GetStateString());
-            }
-            return;
+			if (!activeMasternode.UpdateSentinelPing(DEFAULT_SENTINEL_VERSION))
+			{
+				nActiveState = MASTERNODE_WATCHDOG_EXPIRED;
+				if (nActiveStatePrev != nActiveState) {
+					LogPrint("masternode", "CMasternode::Check -- Masternode %s is in %s state now\n", vin.prevout.ToStringShort(), GetStateString());
+				}
+				return;
+			}
         }
 
         if(!IsPingedWithin(MASTERNODE_EXPIRATION_SECONDS)) {
@@ -252,7 +255,7 @@ bool CMasternode::IsInputAssociatedWithPubkey()
     uint256 hash;
     if(GetTransaction(vin.prevout.hash, tx, Params().GetConsensus(), hash, true)) {
         BOOST_FOREACH(CTxOut out, tx.vout)
-            if(out.nValue == 1000*COIN && out.scriptPubKey == payee) return true;
+            if(out.nValue == 1000 * COIN && out.scriptPubKey == payee) return true;
     }
 
     return false;

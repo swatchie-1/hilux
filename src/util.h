@@ -14,6 +14,10 @@
 #if defined(HAVE_CONFIG_H)
 #include "config/hilux-config.h"
 #endif
+#if _MSC_VER
+#include "unistd_win.h"
+#endif
+
 
 #include "compat.h"
 #include "tinyformat.h"
@@ -38,7 +42,7 @@
 #ifdef ENABLE_HILUX_DEBUG
 #define DBG( x ) x
 #else
-#define DBG( x ) 
+#define DBG( x )
 #endif
 
 //Hilux only features
